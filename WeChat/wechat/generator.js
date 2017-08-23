@@ -1,4 +1,7 @@
 	var sha1 = require('sha1');
+	var Promise = require('bluebird');
+	var request = Promise.promisify(require('request'));
+	
 	var prefix = 'https://api.weixin.qq.com/cgi-bin/';
 	var api = {
 		accessToken: prefix+ 'token?grant_type=client_credential'
@@ -51,19 +54,25 @@
 		var appID = this.appID;
 		var appSecret = this.appSecret;
 		var url = api.accessToken + '&appid=' + addID + '&secret=' + appSecret;
-		request({url: url, json: true}).then(function (response) {
-			var data = response[1];
-			var time = (new Date().getTime());
-		//服务器计算需要时间，提前20s刷新
-			var expires_in = time + (data.expires_in - 20)*1000;
+		return new Promise(function (resolve, reject) {
+			request({url: url, json: true}).then(function (response) {
+				var data = response[1];
+				var time = (new Date().getTime());
+			//服务器计算需要时间，提前20s刷新
+				var expires_in = time + (data.expires_in - 20)*1000;
+				data.expires_in = expires_in;
+				resolve(data);
+			});
 		});
+		
 	};
 //实例化koaweb服务器
 /*为什么用koa而不用express，因为这种多异步的程序更适合用koa，
 而且koa的代码更加简单*/
 	module.exports = function (opts) {
+		var wechat = new Wechat(opts);
 		return function *(next){//生成期函数--generator function
-					console.log(this.query);
+					// console.log(this.query);
 				//获取一系列所需要的参数
 					var token = opts.token;
 					var signature = this.query.signature;
