@@ -1,7 +1,7 @@
 	var sha1 = require('sha1');
 	var Promise = require('bluebird');
 	var request = Promise.promisify(require('request'));
-	
+
 	var prefix = 'https://api.weixin.qq.com/cgi-bin/';
 	var api = {
 		accessToken: prefix+ 'token?grant_type=client_credential'
@@ -53,10 +53,10 @@
 	Wechat.prototype.updateAccessToken = function (data) {
 		var appID = this.appID;
 		var appSecret = this.appSecret;
-		var url = api.accessToken + '&appid=' + addID + '&secret=' + appSecret;
+		var url = api.accessToken + '&appid=' + appID + '&secret=' + appSecret;
 		return new Promise(function (resolve, reject) {
 			request({url: url, json: true}).then(function (response) {
-				var data = response[1];
+				var data = response.body;
 				var time = (new Date().getTime());
 			//服务器计算需要时间，提前20s刷新
 				var expires_in = time + (data.expires_in - 20)*1000;
