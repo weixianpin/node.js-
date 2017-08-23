@@ -42,6 +42,9 @@
 						//将原始数据传递给XML，解析后返回给content
 						var content = yield util.parseXMLAsync(data);
 						console.log(content);
+
+						var message = util.formatMessage(content.xml);
+						console.log(message);
 					}
 				};
 	};
