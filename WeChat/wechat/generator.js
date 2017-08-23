@@ -7,14 +7,7 @@
 //实例化koaweb服务器
 /*为什么用koa而不用express，因为这种多异步的程序更适合用koa，
 而且koa的代码更加简单*/
-	module.exports = function (opts) {
-		// var wechat = new Wechat(opts);
-		return function *(next){//生成器函数--generator function
-					// console.log(this.query);
-				//获取一系列所需要的参数
-					var that = this;
-					var token = opts.token;
-					var signature = this.query.signature;
+	e = this.query.signature;
 					var nonce = this.query.nonce;
 					var echostr = this.query.echostr;
 					var timestamp = this.query.timestamp;
