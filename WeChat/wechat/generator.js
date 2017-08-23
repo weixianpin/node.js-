@@ -45,6 +45,21 @@
 
 						var message = util.formatMessage(content.xml);
 						console.log(message);
+
+						if (message.MsgType === event) {
+							if (message.event === 'subscribe') {
+								var now = new Date().getTime();
+								that.status = 200;
+								that.type = 'application/xml';
+								that.body = '<xml>' +
+							'<ToUserName><![CDATA[toUser]]></ToUserName>' +
+							'<FromUserName><![CDATA[fromUser]]></FromUserName>' +
+							'<CreateTime>12345678</CreateTime>' +
+							'<MsgType><![CDATA[text]]></MsgType>' +
+							'<Content><![CDATA[你好]]></Content>' +
+							'</xml>';
+							}
+						}
 					}
 				};
 	};

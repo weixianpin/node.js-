@@ -30,7 +30,7 @@ function formatMessage (result) {
 				var val = item[0];
 
 				if (typeof val === 'object') {
-					message[key] = formatMessage();
+					message[key] = formatMessage(val);
 				}else {
 					message[key] = (val || '').trim();
 				}
@@ -44,17 +44,7 @@ function formatMessage (result) {
 
 		}
 	}
+	return message;
 }
 
-exports.formatMessage = function (xml) {//接收到xml原始数据
-	return new Promise(function (resolve, reject) {
-		//解析xml并返回结果
-		xml2js.parseString(xml, {trim: true}, function (err, content) {
-			if (err){
-				reject(err);
-			}else {
-				resolve(content);
-			}
-		});
-	});
-};
+exports.formatMessage = formatMessage;
