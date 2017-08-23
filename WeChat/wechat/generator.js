@@ -12,6 +12,7 @@
 		return function *(next){//生成期函数--generator function
 					// console.log(this.query);
 				//获取一系列所需要的参数
+					var that = this;
 					var token = opts.token;
 					var signature = this.query.signature;
 					var nonce = this.query.nonce;
@@ -52,12 +53,13 @@
 								that.status = 200;
 								that.type = 'application/xml';
 								that.body = '<xml>' +
-							'<ToUserName><![CDATA[toUser]]></ToUserName>' +
-							'<FromUserName><![CDATA[fromUser]]></FromUserName>' +
-							'<CreateTime>12345678</CreateTime>' +
-							'<MsgType><![CDATA[text]]></MsgType>' +
-							'<Content><![CDATA[你好]]></Content>' +
-							'</xml>';
+								'<ToUserName><![CDATA['+ message.FromUserName+']]></ToUserName>' +
+								'<FromUserName><![CDATA['+ message.ToUserName+']]></FromUserName>' +
+								'<CreateTime>'+ now +'</CreateTime>' +
+								'<MsgType><![CDATA[text]]></MsgType>' +
+								'<Content><![CDATA[你好]]></Content>' +
+								'</xml>';
+								return;
 							}
 						}
 					}
