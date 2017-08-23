@@ -47,8 +47,8 @@
 						var message = util.formatMessage(content.xml);
 						console.log(message);
 
-						if (message.MsgType === event) {
-							if (message.event === 'subscribe') {
+						if (message.MsgType === 'event') {
+							if (message.Event === 'subscribe') {
 								var now = new Date().getTime();
 								that.status = 200;
 								that.type = 'application/xml';
@@ -57,7 +57,7 @@
 								'<FromUserName><![CDATA['+ message.ToUserName+']]></FromUserName>' +
 								'<CreateTime>'+ now +'</CreateTime>' +
 								'<MsgType><![CDATA[text]]></MsgType>' +
-								'<Content><![CDATA[你好]]></Content>' +
+								'<Content><![CDATA[美少女,你好]]></Content>' +
 								'</xml>';
 								return;
 							}
