@@ -52,7 +52,13 @@
 								var now = new Date().getTime();
 								that.status = 200;
 								that.type = 'application/xml';
-								that.body = 
+								that.body = '<xml>' +
+								'<ToUserName><![CDATA['+ message.FromUserName+']]></ToUserName>' +
+								'<FromUserName><![CDATA['+ message.ToUserName+']]></FromUserName>' +
+								'<CreateTime>'+ now +'</CreateTime>' +
+								'<MsgType><![CDATA[text]]></MsgType>' +
+								'<Content><![CDATA[美少女,你好]]></Content>' +
+								'</xml>';
 								return;
 							}
 						}
