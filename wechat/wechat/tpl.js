@@ -54,3 +54,8 @@ var tpl = heredoc(function () {
 	</xml>;
 	**/
 });
+
+var compiled = ejs.compiled(tpl);
+exports = module.exports = {
+	compiled: compiled
+}
