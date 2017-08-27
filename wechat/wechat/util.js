@@ -1,6 +1,7 @@
 
 var Promise = require('bluebird');
 var xml2js = require('xml2js');
+var tpl = require('./tpl.js');
 
 exports.parseXMLAsync = function (xml) {//接收到xml原始数据
 	return new Promise(function (resolve, reject) {
@@ -46,5 +47,9 @@ function formatMessage (result) {
 	}
 	return message;
 }
+
+exports.tpl = function (content, message) {
+
+};
 
 exports.formatMessage = formatMessage;

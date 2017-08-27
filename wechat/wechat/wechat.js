@@ -1,5 +1,6 @@
 	var Promise = require('bluebird');
 	var request = Promise.promisify(require('request'));
+	var util = require('./util.js');
 
 	var prefix = 'https://api.weixin.qq.com/cgi-bin/';
 	var api = {
@@ -65,4 +66,15 @@
 		});
 		
 	};
+
+	Wechat.prototype.reply = function () {
+		var content= this.body;//拿到回复消息的内容
+		var message = this.weixin;//拿到微信
+		var xml = util.tpl(content, message);
+
+		this.status= 200;
+		this.type = 'application/xml';
+		this.body = xml;
+	};
+
 	module.exports = Wechat;
