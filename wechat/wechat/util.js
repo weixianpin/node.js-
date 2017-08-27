@@ -49,6 +49,22 @@ function formatMessage (result) {
 }
 
 exports.tpl = function (content, message) {
+	var info = { };
+	var type = 'text';
+	var fromUserName = message.fromUserName;
+	var toUserName = message.toUserName;
+
+	if (Array.isArray(content)){
+		type = 'news';
+	}
+	type = content.type || type;
+	info.content = content;//获取消息内容
+	info.createTime = new Date().getTiem();
+	info.msgType = type;
+	info.toUserName = fromUserName;
+	info.fromUserName = toUserName;
+
+	return tpl.compiled(info);
 
 };
 
