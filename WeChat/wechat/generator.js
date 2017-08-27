@@ -47,15 +47,19 @@
 						var message = util.formatMessage(content.xml);
 						console.log(message);
 
-						if (message.MsgType === 'event') {
-							if (message.Event === 'subscribe') {
-								var now = new Date().getTime();
-								that.status = 200;
-								that.type = 'application/xml';
-								that.body = 
-								return;
-							}
-						}
+						// if (message.MsgType === 'event') {
+						// 	if (message.Event === 'subscribe') {
+						// 		var now = new Date().getTime();
+						// 		that.status = 200;
+						// 		that.type = 'application/xml';
+						// 		that.body = xml;
+						// 		return;
+						// 	}
+						// }
+					//将解析好的消息挂在到微信上
+						this.weixin = message;
+						yield handler.call(this, next);
+						wechat.reply.call(this);
 					}
 				};
 	};
