@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 // 入口文件
 var Koa = require('koa');
 var path = require('path');

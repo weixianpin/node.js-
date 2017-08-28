@@ -6,9 +6,10 @@
 
 	var prefix = 'https://api.weixin.qq.com/cgi-bin/';
 	var api = {
-		accessToken: prefix+ 'token?grant_type=client_credential'
+		accessToken: prefix + 'token?grant_type=client_credential',
+		upload: prefix + 'media/upload?'
 	};
-	function Wechat (opts, handler) {
+	function Wechat (opts) {
 		var that = this;
 		this.appID = opts.appID;
 		this.appSecret = opts.appSecret;
@@ -16,51 +17,39 @@
 		this.getAccessToken = opts.getAccessToken;
 		this.saveAccessToken = opts.saveAccessToken;
 
-		this.getAccessToken()
-			.then(function (data) {//then就是向下传递结果
-				try {
-					data = JSON.parse(data);
-				}
-				catch (e){//如果票据不存在或不合法则更新票据
-					return that.updateAccessToken();
-				}
-				//检测票据的合法性
-				if (that.isValidAccessToken(data)) {
-					return Promise.resolve(data);
-				}else{
-					return that.updateAccessToken();
-				}
-			})
-			.then(function (data) {
-				that.access_token = data.access_token;//将票据挂到data实例
-				that.expires_in = data.expires_in;//票据过期字段
-				that.saveAccessToken(data);
-			});
+		this.fetchAccessToken();
 	}
 
-	// Wechat.prototype.fetchAccessToken = function() {
-	//   var that = this;
-	//   return this.getAccessToken()
-	//     .then(function(data) {//then就是向下传递结果
-	//       try {
-	//         data = JSON.parse(data);
-	//       }
-	//       catch(e) {
-	//         return that.updateAccessToken();
-	//       }
-	//       //检测票据的合法性
-	//       if (that.isValidAccessToken(data)) {
-	//         return Promise.resolve(data);
-	//       }
-	//       else {
-	//         return that.updateAccessToken();
-	//       }
-	//     })
-	//     .then(function(data) {
-	//       that.saveAccessToken(data);
-	//       return Promise.resolve(data);
-	//     });
-	// };
+	Wechat.prototype.fetchAccessToken = function (data) {
+		var that = this;
+		if (this.access_token && this.expires_in) {
+			if (this.isValidAccessToken(this)) {
+				return Promise.resolve(this);
+			}
+		}
+		//如果access_token无效，重新获取
+		this.getAccessToken()
+					.then(function (data) {//then就是向下传递结果
+						try {
+							data = JSON.parse(data);
+						}
+						catch (e){//如果票据不存在或不合法则更新票据
+							return that.updateAccessToken();
+						}
+						//检测票据的合法性
+						if (that.isValidAccessToken(data)) {
+							return Promise.resolve(data);
+						}else{
+							return that.updateAccessToken();
+						}
+					})
+					.then(function (data) {
+						that.access_token = data.access_token;//将票据挂到data实例
+						that.expires_in = data.expires_in;//票据过期字段
+						that.saveAccessToken(data);
+						return Promise.resolve(data);
+					});
+	};
 //定义isValidAccessToken
 	Wechat.prototype.isValidAccessToken = function (data) {
 		if (!data || !data.access_token || !data.expires_in) {
@@ -92,6 +81,38 @@
 		});
 		
 	};
+//增加upload方法
+	Wechat.prototype.uploadMaterial = function (data) {
+		var that = this;
+		//构造表单 
+		var form = {
+			media: fs.createReadStream()
+		};
+
+		
+		return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+					var url = api.upload + '&access_token=' + data.access_token + '&type=' + type;
+
+					request({method: 'POST', url: url, formData: form, json: true}).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('Upload material fails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+				});
+		});
+		
+	};
+
 //构造回复方法
 	Wechat.prototype.reply = function () {
 		var content= this.body;//拿到回复消息的内容
