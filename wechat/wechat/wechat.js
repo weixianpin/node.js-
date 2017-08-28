@@ -1,8 +1,9 @@
-	'use strict';
+	// 'use strict';
 
 	var Promise = require('bluebird');
 	var request = Promise.promisify(require('request'));
 	var util = require('./util.js');
+	var fs = require('./fs');
 
 	var prefix = 'https://api.weixin.qq.com/cgi-bin/';
 	var api = {
@@ -94,7 +95,7 @@
 			that
 				.fetchAccessToken()
 				.then(function (data) {
-					var url = api.upload + '&access_token=' + data.access_token + '&type=' + type;
+					var url = api.upload + 'access_token=' + data.access_token + '&type=' + type;
 
 					request({method: 'POST', url: url, formData: form, json: true}).then(function (response) {
 						var _data = response.body;
