@@ -1,11 +1,14 @@
+'use strict';
 // 入口文件
 var Koa = require('koa');
 var path = require('path');
 // var sha1 = require('sha1');
 var wechat = require('./wechat/generator.js');
 var util = require('./libs/util.js');
-var wechat_file = path.join(__dirname,'./config/wechat.txt');
 var config = require('./config.js');
+var weixin = require('./weixin.js');
+var wechat_file = path.join(__dirname,'./config/wechat.txt');
+
 
 
 //实例化koaweb服务器

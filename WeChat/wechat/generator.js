@@ -1,3 +1,5 @@
+	'use strict';
+
 	var sha1 = require('sha1');
 	var getRawBody = require('raw-body');
 
@@ -7,8 +9,8 @@
 //实例化koaweb服务器
 /*为什么用koa而不用express，因为这种多异步的程序更适合用koa，
 而且koa的代码更加简单*/
-	module.exports = function (opts) {
-		// var wechat = new Wechat(opts);
+	module.exports = function (opts, handler) {
+		var wechat = new Wechat(opts, handler);
 		return function *(next){//生成器函数--generator function
 					// console.log(this.query);
 				//获取一系列所需要的参数
@@ -47,15 +49,7 @@
 						var message = util.formatMessage(content.xml);
 						console.log(message);
 
-						// if (message.MsgType === 'event') {
-						// 	if (message.Event === 'subscribe') {
-						// 		var now = new Date().getTime();
-						// 		that.status = 200;
-						// 		that.type = 'application/xml';
-						// 		that.body = xml;
-						// 		return;
-						// 	}
-						// }
+						
 					//将解析好的消息挂在到微信上
 						this.weixin = message;
 						yield handler.call(this, next);

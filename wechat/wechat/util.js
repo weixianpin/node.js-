@@ -1,3 +1,4 @@
+'use strict';
 
 var Promise = require('bluebird');
 var xml2js = require('xml2js');
@@ -59,7 +60,7 @@ exports.tpl = function (content, message) {
 	}
 	type = content.type || type;
 	info.content = content;//获取消息内容
-	info.createTime = new Date().getTiem();
+	info.createTime = new Date().getTime();
 	info.msgType = type;
 	info.toUserName = fromUserName;
 	info.fromUserName = toUserName;
