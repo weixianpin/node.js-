@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 var Promise = require('bluebird');
 var xml2js = require('xml2js');
