@@ -24,7 +24,7 @@
 				}
 				//检测票据的合法性
 				if (that.isValidAccessToken(data)) {
-					Promise.resolve(data);
+					return Promise.resolve(data);
 				}else{
 					return that.updateAccessToken();
 				}

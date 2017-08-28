@@ -37,7 +37,7 @@ var tpl = heredoc(function () {
 				</HQMusicUrl>
 				<ThumbMediaId><![CDATA[<% content.thumbMediaId %>]]></ThumbMediaId>
 			</Music>
-		<% } else if (msgType === 'music' ) { %>
+		<% } else if (msgType === 'news	' ) { %>
 			<ArticleCount><% content.length %></ArticleCount>
 			<Articles>
 			<% content.forEach(function (item) { %>
@@ -58,4 +58,4 @@ var tpl = heredoc(function () {
 var compiled = ejs.compiled(tpl);
 exports = module.exports = {
 	compiled: compiled
-}
+};
