@@ -11,7 +11,7 @@
 而且koa的代码更加简单*/
 	module.exports = function (opts, handler) {
 		var wechat = new Wechat(opts, handler);
-		return function *(next){//生成器函数--generator function
+		return function* (next){//生成器函数--generator function
 					// console.log(this.query);
 				//获取一系列所需要的参数
 					var that = this;

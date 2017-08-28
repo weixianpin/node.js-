@@ -3,7 +3,7 @@
 	var Promise = require('bluebird');
 	var request = Promise.promisify(require('request'));
 	var util = require('./util.js');
-	var fs = require('./fs');
+	var fs = require('fs');
 
 	var prefix = 'https://api.weixin.qq.com/cgi-bin/';
 	var api = {
