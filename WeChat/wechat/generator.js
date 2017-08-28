@@ -1,4 +1,4 @@
-	'use strict';
+	// 'use strict';
 
 	var sha1 = require('sha1');
 	var getRawBody = require('raw-body');
