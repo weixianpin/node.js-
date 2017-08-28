@@ -38,29 +38,29 @@
 			});
 	}
 
-	Wechat.prototype.fetchAccessToken = function() {
-	  var that = this;
-	  return this.getAccessToken()
-	    .then(function(data) {//then就是向下传递结果
-	      try {
-	        data = JSON.parse(data);
-	      }
-	      catch(e) {
-	        return that.updateAccessToken();
-	      }
-	      //检测票据的合法性
-	      if (that.isValidAccessToken(data)) {
-	        return Promise.resolve(data);
-	      }
-	      else {
-	        return that.updateAccessToken();
-	      }
-	    })
-	    .then(function(data) {
-	      that.saveAccessToken(data);
-	      return Promise.resolve(data);
-	    });
-	};
+	// Wechat.prototype.fetchAccessToken = function() {
+	//   var that = this;
+	//   return this.getAccessToken()
+	//     .then(function(data) {//then就是向下传递结果
+	//       try {
+	//         data = JSON.parse(data);
+	//       }
+	//       catch(e) {
+	//         return that.updateAccessToken();
+	//       }
+	//       //检测票据的合法性
+	//       if (that.isValidAccessToken(data)) {
+	//         return Promise.resolve(data);
+	//       }
+	//       else {
+	//         return that.updateAccessToken();
+	//       }
+	//     })
+	//     .then(function(data) {
+	//       that.saveAccessToken(data);
+	//       return Promise.resolve(data);
+	//     });
+	// };
 //定义isValidAccessToken
 	Wechat.prototype.isValidAccessToken = function (data) {
 		if (!data || !data.access_token || !data.expires_in) {
