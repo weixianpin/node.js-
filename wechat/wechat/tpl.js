@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 var ejs = require('ejs');
 var heredoc = require('heredoc');
