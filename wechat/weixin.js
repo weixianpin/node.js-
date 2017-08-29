@@ -1,6 +1,6 @@
 // 'use strict';
 
-exports.reply = function* (next) {
+exports.reply = function*(next) {
 	var message = this.weixin;
 
 	if (message.MsgType === 'event') {
