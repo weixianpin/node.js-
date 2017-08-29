@@ -52,8 +52,8 @@ function formatMessage (result) {
 exports.tpl = function (content, message) {
 	var info = { };
 	var type = 'text';
-	var fromUserName = message.fromUserName;
-	var toUserName = message.toUserName;
+	var fromUserName = message.FromUserName;
+	var toUserName = message.ToUserName;
 
 	if (Array.isArray(content)){
 		type = 'news';
@@ -62,7 +62,7 @@ exports.tpl = function (content, message) {
 	info.content = content;//获取消息内容
 	info.createTime = new Date().getTime();
 	info.msgType = type;
-	info.toUserName = fromUserName;
+	info.toUserName = fromUserName;//返回回去的openId
 	info.fromUserName = toUserName;
 
 	return tpl.compiled(info);

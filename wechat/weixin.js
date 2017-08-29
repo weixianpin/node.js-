@@ -9,7 +9,7 @@ exports.reply = function* (next) {
 				console.log('扫描二维码进来' + message.EventKey +' '+ message.Ticket);
 			}
 			
-			this.body = '谢谢您订阅了这个号';
+			this.body = '谢谢长得好的你订阅了这个号';
 		}
 		else if (message.Event === 'unsubscribe') {
 		
@@ -32,7 +32,7 @@ exports.reply = function* (next) {
 	}
 	else if (message.MsgType === 'text') {
 		var content = message.Content;
-		var reply = '你说的' + message.Content + '太复杂了';
+		var reply = '你说的' + message.Content + '太复杂了，我无法回复';
 
 		if (content === '1') {
 			reply = '李会娟真好看';
@@ -40,21 +40,21 @@ exports.reply = function* (next) {
 		else if (content === '2') {
 			reply = '李会娟真漂亮';
 		}
-		else if (content ==='3') {
+		else if (content === '3') {
 			reply = '李会娟真美丽';
 		}
 		else if (content === '4') {
 			reply = [{
-					title: '技术改变世界',
-					description: '这只是一个描述',
-					picUrl: 'http://res.cloudinary.com/moveha/image/upload/v1441184110/assets/images/Mask-min.png',
-					url: 'https://github.com'
+						title: '一个大美女',
+						description: '你好，我叫李会娟，有点可爱，有时候也会犯2',
+						picUrl: 'http://otwll2i2i.bkt.clouddn.com/littleGirl1.JPG',
+						url: 'https://github.com/'
 				},
 				{
-					title: 'node.js开发微信',
+					title: '还是一个大美女',
 					description: '这只是一个描述',
-					picUrl: 'http://res.cloudinary.com/moveha/image/upload/v1431337192/index-img2_fvzeow.png',
-					url: 'https://nodejs.org'
+					picUrl: 'http://otwll2i2i.bkt.clouddn.com/littleGirl2.JPG',
+					url: 'https://nodejs.org/'
 			}];
 		}
 		this.body = reply;
