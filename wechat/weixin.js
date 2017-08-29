@@ -70,12 +70,29 @@ exports.reply = function*(next) {
 			console.log(reply);
 		}//上传永久素材
 		else if (content === '6') {
+		
 			var data = yield wechatApi.uploadMaterial('image', __dirname + '/1.jpg', {type: 'image'});
 			reply = {
 				type: 'image',
 				mediaId: data.media_id
 			};
 			console.log(reply);
+		}
+		else if (content === '7') {
+			var picData = yield wechatApi.uploadMaterial('image', __dirname + '/1.jpg', {});
+			var media = {
+					articles: [{
+					title: '没有标题',
+					thumb_media_id: picData.media_id,
+					author: '没有作者',
+					digest: '没有摘要',
+					show_cover_pic: 1,
+					content: '没有内容',
+					content_source_url: 'https://github.com'//阅读全文地址
+				}]
+			};
+			data = yield wechatApi.uploadMaterial('news', media, {});
+			data = yield wechatApi.fetchMaterial(data.media_id);
 		}
 
 		this.body = reply;
