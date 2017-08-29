@@ -8,7 +8,15 @@
 	var prefix = 'https://api.weixin.qq.com/cgi-bin/';
 	var api = {
 		accessToken: prefix + 'token?grant_type=client_credential',
-		upload: prefix + 'media/upload?'
+		temporary: {
+			upload: prefix + 'media/upload?'
+		},
+		permanent: {
+			upload: prefix + 'material/add_material?',
+			uploadNews: prefix + 'material/add_news?',
+			uploadNewsPic: prefix + 'media/uploadimg?'
+		}
+		
 	};
 	function Wechat (opts) {
 		var that = this;
@@ -83,15 +91,25 @@
 		
 	};
 //增加upload方法
-	Wechat.prototype.uploadMaterial = function (type, filepath) {
-		var that = this;
+	Wechat.prototype.uploadMaterial = function (type, filepath, permanent) {
+		   var that = this;
+		   var form ={};
+		   var uploadUrl = api.temporary.upload;//临时素材地址
+
+		   if (permanent) {
+		   	uploadUrl = api.permanent.upload;//如果永久素材存在，获得其url
+		   	_.extedd(form, permanent);
+		 }
+		 if (type === 'pic') {
+		 	uploadUrl = api.permanent.uploadNews;
+		 }
 		//构造表单 
-		var form = {
-			media: fs.createReadStream(filepath)
-		};
+		   var form = {
+			   media: fs.createReadStream(filepath)
+		   };
 
 		
-		return new Promise(function (resolve, reject) {
+		  return new Promise(function (resolve, reject) {
 			that
 				.fetchAccessToken()
 				.then(function (data) {
