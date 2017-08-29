@@ -141,7 +141,7 @@
 						options.formData = form;
 					}
 
-					request({method: 'POST', url: url, formData: form, json: true}).then(function (response) {
+					request(options).then(function (response) {
 						var _data = response.body;
 						
 						if (_data) {
