@@ -93,6 +93,21 @@ exports.reply = function*(next) {
 			};
 			data = yield wechatApi.uploadMaterial('news', media, {});
 			data = yield wechatApi.fetchMaterial(data.media_id);
+
+			console.log(data);
+
+			var items = data.news_items;
+			var news = [];
+
+			items.forEach(function (items) {
+				news.push({
+					title: items.title,
+					description: items.digest,
+					picUrl: picData.url,
+					url: items.url
+				});
+			});
+			reply = news;
 		}
 
 		this.body = reply;
