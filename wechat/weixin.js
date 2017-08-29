@@ -67,6 +67,7 @@ exports.reply = function*(next) {
 				type: 'image',
 				mediaId: data.media_id
 			};
+			console.log(reply);
 		}
 
 		this.body = reply;
