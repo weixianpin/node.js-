@@ -95,7 +95,7 @@
 			that
 				.fetchAccessToken()
 				.then(function (data) {
-					var url = api.upload + 'access_token=' + data.access_token + '&type=' + type;
+					var url = api.upload + 'access_token=' + data.access_token + 'type=' + type;
 
 					request({method: 'POST', url: url, formData: form, json: true}).then(function (response) {
 						var _data = response.body;

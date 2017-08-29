@@ -62,7 +62,7 @@ exports.reply = function*(next) {
 			}];
 		}
 		else if (content === '5') {
-			var data = yield wechatApi.uploadMaterial('image', __dirname + '1.jpg');
+			var data = yield wechatApi.uploadMaterial('image', __dirname + '/1.jpg');
 			reply = {
 				type: 'image',
 				mediaId: data.media_id

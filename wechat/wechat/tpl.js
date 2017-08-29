@@ -12,22 +12,22 @@ var tpl = heredoc(function () {
 		<MsgType><![CDATA[<%= msgType %>]]></MsgType>
 		<% if (msgType === 'text') { %>
 			<Content><![CDATA[<%= content %>]]></Content>
-		<% } else if (msgType === 'image' ) { %>
+		<% } else if (msgType === 'image') { %>
 			<Image>
 				<<MediaId><![CDATA[<%= content.mediaId %>]]></MediaId>>
 			</Image>
-		<% } else if (msgType === 'voice' ) { %>
+		<% } else if (msgType === 'voice') { %>
 			<Voice>
 			<MediaId><![CDATA[<%= content.mediaId %>]]></MediaId>
 			</Voice>
-		<% } else if (msgType === 'video' ) { %>
+		<% } else if (msgType === 'video') { %>
 			<Video>
 				<MediaId><![CDATA[<%= content.mediaId %>]]></MediaId>
 				<Title><![CDATA[<%= content.title %>]]></Title>
 				<Description><![CDATA[<%= content.description %>]]>
 				</Description>
 			</Video>
-		<% } else if (msgType === 'music' ) { %>
+		<% } else if (msgType === 'music') { %>
 			<Music>
 				<Title><![CDATA[<%= content.title %>]]></Title>
 				<Description><![CDATA[<%= content.description %>]]>
@@ -38,7 +38,7 @@ var tpl = heredoc(function () {
 				<ThumbMediaId><![CDATA[<%= content.thumbMediaId %>]]>
 				</ThumbMediaId>
 			</Music>
-		<% } else if (msgType === 'news' ) { %>
+		<% } else if (msgType === 'news') { %>
 			<ArticleCount><%= content.length %></ArticleCount>
 			<Articles>
 			<% content.forEach(function (item) { %>
