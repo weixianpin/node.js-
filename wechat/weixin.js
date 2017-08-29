@@ -62,7 +62,15 @@ exports.reply = function*(next) {
 			}];
 		}
 		else if (content === '5') {
-			var data = yield wechatApi.uploadMaterial('image', __dirname + '/1.jpg');
+			var data = yield wechatApi.uploadMaterial('image','./1.jpg');
+			reply = {
+				type: 'image',
+				mediaId: data.media_id
+			};
+			console.log(reply);
+		}
+		else if (content === '6') {
+			var data = yield wechatApi.uploadMaterial('image', __dirname + '/1.jpg', {type: 'image'});
 			reply = {
 				type: 'image',
 				mediaId: data.media_id
