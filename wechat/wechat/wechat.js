@@ -181,9 +181,10 @@
 					if (permanent) {
 						form.media_id = mediaId;
 						form.access_token = data.access_token;
+						options.body = form;
 					}
 
-					request({method: 'POST', url: url, body: form, json: true}).then(function (response) {
+					request(options).then(function (response) {
 						var _data = response.body;
 						
 						if (_data) {
