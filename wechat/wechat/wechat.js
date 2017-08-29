@@ -10,10 +10,12 @@
 	var api = {
 		accessToken: prefix + 'token?grant_type=client_credential',
 		temporary: {
-			upload: prefix + 'media/upload?'
+			upload: prefix + 'media/upload?',
+			fetch: prefix + 'media/get?'
 		},
 		permanent: {
 			upload: prefix + 'material/add_material?',
+			fetch: prefix + 'material/get_material?',
 			uploadNews: prefix + 'material/add_news?',
 			uploadNewsPic: prefix + 'media/uploadimg?'
 		}
@@ -147,6 +149,29 @@
 					.catch(function (err) {
 						reject(err);
 					});
+				});
+		});
+		
+	};
+
+	Wechat.prototype.fetchMaterial = function (mediaId, type, permanent) {
+		   var that = this;
+		   var form ={};
+		   var fetchUrl = api.temporary.fetch;//临时素材地址
+
+		   if (permanent) {
+		   	fetchUrl = api.permanent.fetch;//如果永久素材存在，获得其url
+		 }
+		
+		  return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+					var url = fetchUrl + 'access_token=' + data.access_token + '&media_id' + mediaId;
+					if (!permanent && type === 'video') {
+						url = url.replace('https://', 'http://');
+					}
+					resolve(url);
 				});
 		});
 		
