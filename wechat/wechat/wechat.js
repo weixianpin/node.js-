@@ -83,11 +83,11 @@
 		
 	};
 //增加upload方法
-	Wechat.prototype.uploadMaterial = function (data) {
+	Wechat.prototype.uploadMaterial = function (type, filepath) {
 		var that = this;
 		//构造表单 
 		var form = {
-			media: fs.createReadStream()
+			media: fs.createReadStream(filepath)
 		};
 
 		

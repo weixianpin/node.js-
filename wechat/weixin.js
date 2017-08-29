@@ -1,5 +1,9 @@
 // 'use strict';
 
+var config = require('./config.js');
+var Wechat = require('./wechat/wechat.js');
+var wechatApi= new Wechat(config.weChat);
+
 exports.reply = function*(next) {
 	var message = this.weixin;
 
@@ -57,6 +61,14 @@ exports.reply = function*(next) {
 					url: 'https://nodejs.org/'
 			}];
 		}
+		else if (content === '5') {
+			var data = yield wechatApi.uploadMaterial('image', __dirname + '1.jpg');
+			reply = {
+				type: 'image',
+				mediaId: data.media_id
+			};
+		}
+
 		this.body = reply;
 	}
 	yield next;
