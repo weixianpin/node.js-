@@ -124,7 +124,8 @@
 				.then(function (data) {
 					var url = uploadUrl + 'access_token=' + data.access_token;
 					if (!permanent) {
-						url += '&type=' + type;
+						// url += '&type=' + type;
+						url += '&media_id=' + mediaId;
 					}else {
 						form.access_token = data.access_token;
 					}
@@ -182,20 +183,30 @@
 						form.media_id = mediaId;
 						form.access_token = data.access_token;
 						options.body = form;
+					}else {
+						if (type === 'video') {
+							url = url.replace('https://', 'http://');
+						}
+						url += '&media_id=' + mediaId;
+					}
+					if (type === 'news' || type === '') {
+							request(options).then(function (response) {
+							var _data = response.body;
+							
+							if (_data) {
+								resolve(_data);
+							}else {
+								throw new Error('Delete material fails');
+							}
+						})
+						.catch(function (err) {
+							reject(err);
+						});
+					}else {
+						resolve(err);
 					}
 
-					request(options).then(function (response) {
-						var _data = response.body;
-						
-						if (_data) {
-							resolve(_data);
-						}else {
-							throw new Error('Delete material fails');
-						}
-					})
-					.catch(function (err) {
-						reject(err);
-					});
+					
 
 					// if (!permanent && type === 'video') {
 					// 	url = url.replace('https://', 'http://');
