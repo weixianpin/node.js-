@@ -160,7 +160,7 @@
 
 	Wechat.prototype.fetchMaterial = function (mediaId, type, permanent) {
 		   var that = this;
-		   var form ={};
+		   var form = {};
 		   var fetchUrl = api.temporary.fetch;//临时素材地址
 
 		   if (permanent) {
@@ -173,10 +173,33 @@
 				.then(function (data) {
 					var url = fetchUrl + 'access_token=' + data.access_token + '&media_id' + mediaId;
 					
-					if (!permanent && type === 'video') {
-						url = url.replace('https://', 'http://');
+					var options = {
+						method: 'POST',
+						url: url,
+						json: true
+					};
+					if (permanent) {
+						form.media_id = mediaId;
+						form.access_token = data.access_token;
 					}
-					resolve(url);
+
+					request({method: 'POST', url: url, body: form, json: true}).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('Delete material fails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+
+					// if (!permanent && type === 'video') {
+					// 	url = url.replace('https://', 'http://');
+					// }
+					// resolve(url);
 				});
 		});
 		
