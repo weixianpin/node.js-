@@ -62,7 +62,7 @@ exports.reply = function*(next) {
 			}];
 		}
 		else if (content === '5') {
-			var data = yield wechatApi.uploadMaterial('image', './1.jpg');
+			var data = yield wechatApi.uploadMaterial('image', __dirname + '/1.jpg');
 			reply = {
 				type: 'image',
 				mediaId: data.media_id
@@ -70,8 +70,7 @@ exports.reply = function*(next) {
 			console.log(reply);
 		}//上传永久素材
 		else if (content === '6') {
-		
-			var data = yield wechatApi.uploadMaterial('image', __dirname + '/1.jpg', {type: 'image'});
+			var data = yield wechatApi.uploadMaterial('image', __dirname +'/1.jpg', {type: 'image'});
 			reply = {
 				type: 'image',
 				mediaId: data.media_id
@@ -92,19 +91,19 @@ exports.reply = function*(next) {
 				}]
 			};
 			data = yield wechatApi.uploadMaterial('news', media, {});
-			data = yield wechatApi.fetchMaterial(data.media_id);
+			data = yield wechatApi.fetchMaterial(data.media_id, 'news', {});
 
 			console.log(data);
 
-			var items = data.news_items;
+			var items = data.news_item;
 			var news = [];
 
-			items.forEach(function (items) {
+			items.forEach(function (item) {
 				news.push({
-					title: items.title,
-					description: items.digest,
+					title: item.title,
+					description: item.digest,
 					picUrl: picData.url,
-					url: items.url
+					url: item.url
 				});
 			});
 			reply = news;

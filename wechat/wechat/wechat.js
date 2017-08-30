@@ -125,7 +125,6 @@
 					var url = uploadUrl + 'access_token=' + data.access_token;
 					if (!permanent) {
 						url += '&type=' + type;
-						// url += '&media_id=' + mediaId;
 					}else {
 						form.access_token = data.access_token;
 					}
@@ -189,7 +188,8 @@
 						}
 						url += '&media_id=' + mediaId;
 					}
-					if (type === 'news' || type === '') {
+					if (type === 'news' || type === 'video') {
+
 							request(options).then(function (response) {
 							var _data = response.body;
 							
@@ -202,10 +202,10 @@
 						.catch(function (err) {
 							reject(err);
 						});
-					}else {
-						resolve(err);
 					}
-
+					else {
+						resolve(url);
+					}
 					
 
 					// if (!permanent && type === 'video') {
