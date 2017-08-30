@@ -94,9 +94,9 @@ exports.reply = function*(next) {
 			data = yield wechatApi.fetchMaterial(data.media_id, 'news', {});
 
 			console.log(data);
-			var news = [];
+
 			var items = data.news_item;
-			
+			var news = [];
 
 			items.forEach(function (item) {
 				news.push({
