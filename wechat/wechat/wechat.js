@@ -108,7 +108,7 @@
 		   	_.extend(form, permanent);
 		 }
 		 if (type === 'pic') {
-		 	uploadUrl = api.permanent.uploadNews;
+		 	uploadUrl = api.permanent.uploadNewsPic;
 		 }
 		 if (type === 'news') {
 		 	uploadUrl = api.permanent.uploadNews;
@@ -124,8 +124,8 @@
 				.then(function (data) {
 					var url = uploadUrl + 'access_token=' + data.access_token;
 					if (!permanent) {
-						// url += '&type=' + type;
-						url += '&media_id=' + mediaId;
+						url += '&type=' + type;
+						// url += '&media_id=' + mediaId;
 					}else {
 						form.access_token = data.access_token;
 					}
@@ -196,7 +196,7 @@
 							if (_data) {
 								resolve(_data);
 							}else {
-								throw new Error('Delete material fails');
+								throw new Error('Fetch material fails');
 							}
 						})
 						.catch(function (err) {
