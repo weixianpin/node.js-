@@ -7,6 +7,7 @@ var wechat = require('./wechat/generator.js');
 var util = require('./libs/util.js');
 var config = require('./config.js');
 var weixin = require('./weixin.js');
+
 var wechat_file = path.join(__dirname,'./config/wechat.txt');
 
 

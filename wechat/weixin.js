@@ -62,7 +62,7 @@ exports.reply = function*(next) {
 			}];
 		}
 		else if (content === '5') {
-			var data = yield wechatApi.uploadMaterial('image', __dirname + '/1.jpg');
+			var data = yield wechatApi.uploadMaterial('image', __dirname + '/2.jpg');
 			reply = {
 				type: 'image',
 				mediaId: data.media_id
@@ -70,7 +70,7 @@ exports.reply = function*(next) {
 			console.log(reply);
 		}//上传永久素材
 		else if (content === '6') {
-			var data = yield wechatApi.uploadMaterial('image', __dirname +'/1.jpg', {type: 'image'});
+			var data = yield wechatApi.uploadMaterial('image', __dirname +'/2.jpg', {type: 'image'});
 			reply = {
 				type: 'image',
 				mediaId: data.media_id
@@ -78,7 +78,7 @@ exports.reply = function*(next) {
 			console.log(reply);
 		}
 		else if (content === '7') {
-			var picData = yield wechatApi.uploadMaterial('image', __dirname + '/1.jpg', {});
+			var picData = yield wechatApi.uploadMaterial('image', __dirname + '/2.jpg', {});
 			var media = {
 					articles: [{
 					title: '没有标题',
@@ -107,6 +107,35 @@ exports.reply = function*(next) {
 				});
 			});
 			reply = news;
+		}
+		else if (content === '8') {
+			var counts = yield wechatApi.countMaterial();
+			console.log(JSON.stringify(counts));
+
+			var results = yield [
+				wechatApi.batchMaterial({
+								type: 'image',
+								offset: 0,
+								count: 10
+							}),
+				wechatApi.batchMaterial({
+								type: 'voice',
+								offset: 0,
+								count: 10
+							}),
+				wechatApi.batchMaterial({
+								type: 'video',
+								offset: 0,
+								count: 10
+							}),
+				wechatApi.batchMaterial({
+								type: 'news',
+								offset: 0,
+								count: 10
+							})
+			];
+			console.log(results);
+			reply = '1';
 		}
 
 		this.body = reply;
