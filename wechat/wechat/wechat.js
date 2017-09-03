@@ -22,6 +22,15 @@
 			update: prefix + 'material/update_news?',
 			count: prefix + 'material/get_materialcount?',
 			batch: prefix + 'material/batchget_material?'
+		},
+		group: {
+			create: prefix + 'groups/create?',
+			fetch: prefix + 'groups/get?',
+			check: prefix + 'groups/getid?',
+			update: prefix + 'groups/update?',
+			move: prefix + 'groups/mebers/update?',
+			batchupdate: prefix + 'groups/mebers/chatchupdate?',
+			del: prefix + 'groups/mebers/delete?',
 		}
 		
 	};
@@ -321,6 +330,64 @@
 							resolve(_data);
 						}else {
 							throw new Error('Batch material fails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+				});
+		});
+		
+	};
+
+	Wechat.prototype.createGroup = function (name) {
+		   var that = this;
+		
+		  return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+					var url = api.group.create + 'access_token=' + data.access_token;
+					var options = {
+						group: {
+							name: name
+						}
+					};
+
+					request({method: 'POST', url: url, body: options, json: true}).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('Create group fails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+				});
+		});
+		
+	};
+
+	Wechat.prototype.fetchGroup = function (name) {
+		   var that = this;
+		
+		  return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+					var url = api.group.fetch + 'access_token=' + data.access_token;
+					
+
+					request({url: url, json: true}).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('fetch group fails');
 						}
 					})
 					.catch(function (err) {
