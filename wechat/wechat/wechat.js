@@ -171,7 +171,7 @@
 			that
 				.fetchAccessToken()
 				.then(function (data) {
-					var url = fetchUrl + 'access_token=' + data.access_token + '&media_id' + mediaId;
+					var url = fetchUrl + 'access_token=' + data.access_token + '&media_id=' + mediaId;
 					
 					var options = {
 						method: 'POST',
