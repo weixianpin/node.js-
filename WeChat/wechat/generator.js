@@ -27,7 +27,7 @@
 						if (sha === signature) {
 							this.body = echostr + '';
 						}else {
-								this.boyd = 'wrong';
+								this.body = 'wrong';
 						}
 					}
 					else if (this.method === 'POST') {

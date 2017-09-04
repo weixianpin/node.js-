@@ -134,7 +134,7 @@ exports.reply = function*(next) {
 								count: 10
 							})
 			];
-			console.log(results);
+			console.log(JSON.stringify(results));
 			reply = '1';
 		}
 		else if (content === '9') {
@@ -169,12 +169,27 @@ exports.reply = function*(next) {
 			console.log(users);
 			reply = JSON.stringify(user);
 		}
-		else if (content ==='11') {
+		else if (content ==='用户') {
 			var userList = yield wechatApi.listUser();
 			console.log(userList);
-			reply = userList.total;
+			reply = '已经有' + userList.total + '位用户关注您拉';
 		}
-
+		else if (content === '11') {
+			var mpnews = {
+				media_id: 'fFQ4fRTYf_uVLDCh6nvsH_DpNCkwmMNIDGW6UnTNo38'
+			};
+			var msgData = yield wechatApi.sendByGroup('mpnews', mpnews, 101);
+			console.log(msgData);
+			reply = '发送成功';
+		}
+		else if (content === '12') {
+			var mpnews = {
+				media_id: 'fFQ4fRTYf_uVLDCh6nvsH_DpNCkwmMNIDGW6UnTNo38'
+			};
+			var msgData = yield wechatApi.previewMass('mpnews', mpnews, 'om0qRxAcS2Lugl36lrX5UnLtCgXg');
+			console.log(msgData);
+			reply = '发送成功';
+		}
 		this.body = reply;
 	}
 	yield next;
