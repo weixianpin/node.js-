@@ -156,6 +156,24 @@ exports.reply = function*(next) {
 
 			reply = 'group done!';
 		}
+		else if (content === '10') {
+			var user = yield wechatApi.fetchUser(message.FromUserName, 'en');
+			console.log(user);
+			var openIds = [
+				{
+					openid: message.FromUserName,
+					lang: 'en'
+				}
+			];
+			var users = yield wechatApi.fetchUser(openIds);
+			console.log(users);
+			reply = JSON.stringify(user);
+		}
+		else if (content ==='11') {
+			var userList = yield wechatApi.listUser();
+			console.log(userList);
+			reply = userList.total;
+		}
 
 		this.body = reply;
 	}

@@ -33,7 +33,10 @@
 			del: prefix + 'groups/delete?',
 		},
 		user: {
-			remark: prefix + 'user/info/updateremark?'
+			remark: prefix + 'user/info/updateremark?',
+			fetch: prefix + 'user/info?',
+			batchFetch: prefix + 'user/info/batchget?',
+			list: prefix + 'user/get?'
 		}
 		
 	};
@@ -522,6 +525,104 @@
 							resolve(_data);
 						}else {
 							throw new Error('Delete group fails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+				});
+		});
+		
+	};
+//备注用户
+	Wechat.prototype.remarkUser = function (openId, remark) {
+		   var that = this;
+		
+		  return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+					var url = api.user.remark + 'access_token=' + data.access_token;
+					var form = {
+						openid: openId,
+						remark: remark
+					};
+					
+					request({method: 'POST', url: url, body: form, json: true}).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('Remark user fails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+				});
+		});
+		
+	};
+//批量获取用户基本信息
+	Wechat.prototype.fetchUser = function (openIds, lang) {
+		   var that = this;
+			lang = lang || 'zh_CN';
+		  return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+
+					var options = {
+						json: true
+					};
+					if (_.isArray(openIds)) {//lodash的方法
+
+						options.url = api.user.batchFetch + 'access_token=' + data.access_token;
+						options.body = {
+							user_list: openIds
+						};
+						options.method = 'POST';
+					}else {
+						options.url = api.user.fetch + 'access_token=' + data.access_token + '&openid=' + openIds + '&lang=' + lang;
+					}
+					
+					request(options).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('fetch user fails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+				});
+		});
+		
+	};
+
+	Wechat.prototype.listUser = function (nextOpenId) {
+		   var that = this;
+		
+		  return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+					var url = api.user.list + 'access_token=' + data.access_token;
+					if (nextOpenId) {
+						url += '&next_openid=' + nextOpenId;
+					}
+					
+					request({method: 'GET', url: url, json: true}).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('List user fails');
 						}
 					})
 					.catch(function (err) {
