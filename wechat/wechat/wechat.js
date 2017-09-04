@@ -31,6 +31,9 @@
 			move: prefix + 'groups/mebers/update?',
 			batchupdate: prefix + 'groups/mebers/chatchupdate?',
 			del: prefix + 'groups/delete?',
+		},
+		user: {
+			remark: prefix + 'user/info/updateremark?'
 		}
 		
 	};
@@ -106,7 +109,7 @@
 		});
 		
 	};
-//增加upload方法
+//增加素材
 	Wechat.prototype.uploadMaterial = function (type, material, permanent) {
 		   var that = this;
 		   var form ={};
@@ -225,7 +228,7 @@
 		});
 		
 	};
-
+//删除素材
 	Wechat.prototype.deleteMaterial = function (mediaId) {
 		   var that = this;
 		   var form ={
@@ -254,7 +257,7 @@
 		});
 		
 	};
-
+//更新素材
 	Wechat.prototype.updateMaterial = function (mediaId, news) {
 		   var that = this;
 		   var form ={
@@ -284,7 +287,7 @@
 		});
 		
 	};
-
+//统计素材
 	Wechat.prototype.countMaterial = function () {
 		   var that = this;
 		
@@ -310,7 +313,7 @@
 		});
 		
 	};
-
+//获取永久素材
 	Wechat.prototype.batchMaterial = function (options) {
 		   var that = this;
 		   options.type = options.type || 'image';
@@ -339,7 +342,7 @@
 		});
 		
 	};
-
+//创建分组
 	Wechat.prototype.createGroup = function (name) {
 		   var that = this;
 		
@@ -370,7 +373,7 @@
 		});
 		
 	};
-
+//获取分组
 	Wechat.prototype.fetchGroup = function (name) {
 		   var that = this;
 		
@@ -397,7 +400,7 @@
 		});
 		
 	};
-
+//检查分组
 	Wechat.prototype.checkGroup = function (openId) {
 		   var that = this;
 		
@@ -426,7 +429,7 @@
 		});
 		
 	};
-
+//更新分组
 	Wechat.prototype.updateGroup = function (id, name) {
 		   var that = this;
 		
@@ -497,7 +500,7 @@
 		});
 		
 	};
-
+//删除分组
 	Wechat.prototype.deleteGroup = function (id) {
 		   var that = this;
 		
@@ -511,7 +514,6 @@
 							id: id
 						}
 					};
-					
 					
 					request({method: 'POST', url: url, body: form, json: true}).then(function (response) {
 						var _data = response.body;

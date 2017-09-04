@@ -137,6 +137,25 @@ exports.reply = function*(next) {
 			console.log(results);
 			reply = '1';
 		}
+		else if (content === '9') {
+			var group = yield wechatApi.createGroup('wechat');
+
+			console.log('新分组 wechat');
+			console.log(group);
+
+			var groups = yield wechatApi.fetchGroup();
+
+			console.log('加了 wechat 后的分组列表');
+			console.log(groups);
+
+			var group2 = yield wechatApi.checkGroup(message.FromUserName);
+
+			console.log('查看自己的分组');
+			console.log(group2);
+
+
+			reply = 'group done!';
+		}
 
 		this.body = reply;
 	}
