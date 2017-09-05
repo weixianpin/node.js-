@@ -2,7 +2,15 @@
 
 var config = require('./config.js');
 var Wechat = require('./wechat/wechat.js');
+var menu = require('./weixin/menu.js');
 var wechatApi= new Wechat(config.weChat);
+
+wechatApi.deleteMenu().then(function () {
+	return wechatApi.createMenu(menu);
+})
+.then(function (msg) {
+	console.log(msg);
+});
 
 exports.reply = function*(next) {
 	var message = this.weixin;
@@ -33,7 +41,41 @@ exports.reply = function*(next) {
 		else if (message.Event === 'VIEW') {
 			this.body = '您点击了菜单中的链接' + message.EventKey;
 		}
+		else if (message.Event === 'scancode_push') {
+			console.log(message.ScanCodeInfo.ScanType);
+			console.log(message.ScanCodeInfo.ScanResult);
+			this.body = '您点击了菜单中的链接' + message.EventKey;
+		}
+		else if (message.Event === 'scancode_waitmsg') {
+			console.log(message.ScanCodeInfo.ScanType);
+			console.log(message.ScanCodeInfo.ScanResult);
+			this.body = '您点击了菜单中的链接' + message.EventKey;
+		}
+		else if (message.Event === 'pic_sysphoto') {
+			console.log(message.SendPicInfo.PicList);
+			console.log(message.SendPicInfo.Count);
+			this.body = '您点击了菜单中的链接' + message.EventKey;
+		}
+		else if (message.Event === 'pic_photo_or_album') {
+			console.log(message.SendPicInfo.PicList);
+			console.log(message.SendPicInfo.Count);
+			this.body = '您点击了菜单中的链接' + message.EventKey;
+		}
+		else if (message.Event === 'pic_weixin') {
+			console.log(message.SendPicInfo.PicList);
+			console.log(message.SendPicInfo.Count);
+			this.body = '您点击了菜单中的链接' + message.EventKey;
+		}
+		else if (message.Event === 'location_select') {
+			console.log(message.SendLocationInfo.Location_X);
+			console.log(message.SendLocationInfo.Location_Y);
+			console.log(message.SendLocationInfo.Location_Scale);
+			console.log(message.SendLocationInfo.Location_Label);
+			console.log(message.SendLocationInfo.Location_Poiname);
+			this.body = '您点击了菜单中的链接' + message.EventKey;
+		}
 	}
+	
 	else if (message.MsgType === 'text') {
 		var content = message.Content;
 		var reply = '你说的' + message.Content + '太复杂了，我无法回复';
