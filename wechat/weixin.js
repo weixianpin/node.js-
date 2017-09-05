@@ -240,7 +240,42 @@ exports.reply = function*(next) {
 			console.log(msgData2);
 			reply = '发送成功';
 		}
+		else if (content === '14') {
+			var tempQr = {
+				expire_seconds: 400000,
+				action_name: 'QR_SCENE',
+				
+				action_info: {
+					scene: {
+						scene_id: 123
+					}
+				}
+			};
 
+			var permQr = {
+				action_name: 'QR_STR_SCENE',
+				action_info: {
+					scene: {
+						scene_id: 123
+					}
+				}
+			};
+			var permSteQr = {
+				action_name: 'QR_LIMIT_STR_SCENE',
+				action_info: {
+					scene: {
+						scene_str: 'abc'
+					}
+				}
+			};
+
+			var qr1 = yield wechatApi.createQrcode(tempQr);
+			var qr1 = yield wechatApi.createQrcode(permQr);
+			var qr1 = yield wechatApi.createQrcode(permSteQr);
+			var msgData2 = yield wechatApi.checkMass('6462108670469940241');
+			console.log(msgData2);
+			reply = '发送成功';
+		}
 
 		this.body = reply;
 	}

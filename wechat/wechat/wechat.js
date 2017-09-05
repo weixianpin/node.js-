@@ -7,6 +7,7 @@
 	var _ = require('lodash');
 
 	var prefix = 'https://api.weixin.qq.com/cgi-bin/';
+	var mpPrefix = 'https://mp.weixin.qq.com/cgi-bin/';
 	var api = {
 		accessToken: prefix + 'token?grant_type=client_credential',
 		temporary: {
@@ -50,6 +51,13 @@
 			get: prefix + 'menu/get?',
 			del: prefix + 'menu/delete?',
 			current: prefix + 'get_current_selfmenu_info?',
+		},
+		qrcode: {
+			create: prefix + 'qrcode/create?',
+			show: mpPrefix + 'showqrcode?'
+		},
+		shortUrl: {
+			create: prefix + 'shorturl?'
 		}
 		
 	};
@@ -914,6 +922,71 @@
 		});
 		
 	};
+//创建二维码
+	Wechat.prototype.createQrcode = function (qr) {
+		   var that = this;
+
+		  return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+					var url = api.qr.create + 'access_token=' + data.access_token;
+
+					request({method: 'POST', url: url, body: qr, json: true}).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('Create qrfails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+				});
+		});
+		
+	};
+//显示二维码
+	Wechat.prototype.showQrcode = function (ticket) {
+		return api.qrcode.show + 'ticket=' + encodeURI(ticket);
+	};
+//长链接转换为短链接
+	Wechat.prototype.createShortUrl = function (action, url) {
+		   action = action || 'long2short';
+
+		   var that = this;
+
+		  return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+					var url = api.shortUrl.create + 'access_token=' + data.access_token;
+
+					var form = {
+						action: action,
+						long_url: url
+					};
+
+					request({method: 'POST', url: url, body: form, json: true}).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('Create shortUrl fails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+				});
+		});
+		
+	};
+
+	
 
 //构造回复方法
 	Wechat.prototype.reply = function () {

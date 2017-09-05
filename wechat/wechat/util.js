@@ -60,6 +60,7 @@ exports.tpl = function (content, message) {
 	if (Array.isArray(content)){
 		type = 'news';
 	}
+	content = content || {};
 	type = content.type || type;
 	info.content = content;//获取消息内容
 	info.createTime = new Date().getTime();
