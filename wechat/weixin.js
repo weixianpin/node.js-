@@ -186,10 +186,21 @@ exports.reply = function*(next) {
 			var mpnews = {
 				media_id: 'fFQ4fRTYf_uVLDCh6nvsH_DpNCkwmMNIDGW6UnTNo38'
 			};
-			var msgData = yield wechatApi.previewMass('mpnews', mpnews, 'om0qRxAcS2Lugl36lrX5UnLtCgXg');
-			console.log(msgData);
+			// var text = {
+			// 	'content': 'Hellow, World!'
+			// };
+			var msgData1 = yield wechatApi.previewMass('mpnews', mpnews, 'om0qRxAcS2Lugl36lrX5UnLtCgXg');
+			console.log(msgData1);
 			reply = '发送成功';
 		}
+		else if (content === '13') {
+			
+			var msgData2 = yield wechatApi.checkMass('6462108670469940241');
+			console.log(msgData2);
+			reply = '发送成功';
+		}
+
+
 		this.body = reply;
 	}
 	yield next;

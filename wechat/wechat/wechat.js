@@ -41,7 +41,15 @@
 		mass: {
 			byGroup: prefix + 'message/mass/sendall?',
 			openId: prefix + 'message/mass/send?',
-			del: prefix + 'message/mass/delete?'
+			del: prefix + 'message/mass/delete?',
+			preview: prefix + 'message/mass/preview?',
+			check: prefix + 'message/mass/get?'
+		},
+		menu: {
+			create: prefix + 'menu/create?',
+			get: prefix + 'menu/get?',
+			del: prefix + 'menu/delete?',
+			current: prefix + 'get_current_selfmenu_info?',
 		}
 		
 	};
@@ -753,7 +761,7 @@
 			that
 				.fetchAccessToken()
 				.then(function (data) {
-					var url = api.mass.openId + 'access_token=' + data.access_token;
+					var url = api.mass.preview + 'access_token=' + data.access_token;
 					
 					request({method: 'POST', url: url, body: msg, json: true}).then(function (response) {
 						var _data = response.body;
@@ -762,6 +770,141 @@
 							resolve(_data);
 						}else {
 							throw new Error('Preview mass fails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+				});
+		});
+		
+	};
+//检查群发状态
+	Wechat.prototype.checkMass = function (msgId) {
+		   var that = this;
+
+		   
+
+		  return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+					var url = api.mass.check + 'access_token=' + data.access_token;
+					var form = {
+					   	msg_id: msgId
+					};
+
+					request({method: 'POST', url: url, body: form, json: true}).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('Check mass fails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+				});
+		});
+		
+	};
+//创建菜单
+	Wechat.prototype.createMenu = function (menu) {
+		   var that = this;
+
+		  return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+					var url = api.menu.create + 'access_token=' + data.access_token;
+
+					request({method: 'POST', url: url, body: menu, json: true}).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('Create menu fails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+				});
+		});
+		
+	};
+//获取菜单
+	Wechat.prototype.getMenu = function (menu) {
+		   var that = this;
+
+		  return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+					var url = api.menu.get + 'access_token=' + data.access_token;
+
+					request({url: url, json: true}).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('Get menu fails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+				});
+		});
+		
+	};
+//删除菜单
+	Wechat.prototype.deleteMenu = function () {
+		   var that = this;
+
+		  return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+					var url = api.menu.del + 'access_token=' + data.access_token;
+
+					request({url: url, json: true}).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('Delete menu fails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+				});
+		});
+		
+	};
+//自定义菜单
+	Wechat.prototype.getCurrentMenu = function () {
+		   var that = this;
+
+		  return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+					var url = api.menu.current + 'access_token=' + data.access_token;
+
+					request({url: url, json: true}).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('Get current menu fails');
 						}
 					})
 					.catch(function (err) {
