@@ -72,7 +72,7 @@
 			}
 		}
 		//如果access_token无效，重新获取
-		this.getAccessToken()
+		return this.getAccessToken()
 					.then(function (data) {//then就是向下传递结果
 						try {
 							data = JSON.parse(data);

@@ -2,13 +2,12 @@
 
 var config = require('./config.js');
 var Wechat = require('./wechat/wechat.js');
-var menu = require('./weixin/menu.js');
+var menu = require('./weixinDOC/menu.js');
 var wechatApi= new Wechat(config.weChat);
 
 wechatApi.deleteMenu().then(function () {
 	return wechatApi.createMenu(menu);
-})
-.then(function (msg) {
+}).then(function (msg) {
 	console.log(msg);
 });
 
@@ -75,7 +74,7 @@ exports.reply = function*(next) {
 			this.body = '您点击了菜单中的链接' + message.EventKey;
 		}
 	}
-	
+
 	else if (message.MsgType === 'text') {
 		var content = message.Content;
 		var reply = '你说的' + message.Content + '太复杂了，我无法回复';

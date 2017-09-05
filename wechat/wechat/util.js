@@ -49,8 +49,10 @@ function formatMessage (result) {
 	return message;
 }
 
+exports.formatMessage = formatMessage;
+
 exports.tpl = function (content, message) {
-	var info = { };
+	var info = {};
 	var type = 'text';
 	var fromUserName = message.FromUserName;
 	var toUserName = message.ToUserName;
@@ -69,4 +71,4 @@ exports.tpl = function (content, message) {
 
 };
 
-exports.formatMessage = formatMessage;
+

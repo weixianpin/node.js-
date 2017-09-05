@@ -2,11 +2,12 @@
 module.exports = {
 	'button': [{
 		'name': '点击事件',
-		'type': 'clcik',
+		'type': 'click',
 		'key': 'menu_click'
 	}, {
 		'name': '点出菜单',
-		'sub_button': [{//副菜单，最多五个
+		// 'type': 'click',
+		'sub_button': [{
 			'name': '跳转URL',
 			'type': 'view',
 			'url': 'https://github.com/'
@@ -29,6 +30,7 @@ module.exports = {
 		}] 
 	}, {
 		'name': '弹出菜单2',
+		// 'type': 'click',
 		'sub_button': [{
 			'name': '微信相册发图',
 			'type': 'pic_weixin',
