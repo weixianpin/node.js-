@@ -8,7 +8,9 @@
 
 	var prefix = 'https://api.weixin.qq.com/cgi-bin/';
 	var mpPrefix = 'https://mp.weixin.qq.com/cgi-bin/';
+	var semanticUrl = 'https://api.weixin.qq.com/semantic/semproxy/search?';
 	var api = {
+		semanticUrl: semanticUrl,
 		accessToken: prefix + 'token?grant_type=client_credential',
 		temporary: {
 			upload: prefix + 'media/upload?',//上传路径
@@ -985,8 +987,35 @@
 		});
 		
 	};
+//只能语音接口
+	Wechat.prototype.semantic = function (semanticData) {
 
-	
+		   var that = this;
+
+		  return new Promise(function (resolve, reject) {
+			that
+				.fetchAccessToken()
+				.then(function (data) {
+					var url = api.semanticUrl + 'access_token=' + data.access_token;
+
+					semanticData.appid = semanticData.appID;
+
+					request({method: 'POST', url: url, body: semanticData, json: true}).then(function (response) {
+						var _data = response.body;
+						
+						if (_data) {
+							resolve(_data);
+						}else {
+							throw new Error('Sematic fails');
+						}
+					})
+					.catch(function (err) {
+						reject(err);
+					});
+				});
+		});
+		
+	};
 
 //构造回复方法
 	Wechat.prototype.reply = function () {
