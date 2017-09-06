@@ -272,9 +272,13 @@ exports.reply = function*(next) {
 			var qr1 = yield wechatApi.createQrcode(tempQr);
 			var qr1 = yield wechatApi.createQrcode(permQr);
 			var qr1 = yield wechatApi.createQrcode(permSteQr);
-			var msgData2 = yield wechatApi.checkMass('6462108670469940241');
-			console.log(msgData2);
+
 			reply = '发送成功';
+		}
+		else if (content === '15') {
+			var longUrl = 'http://www.imooc.com/';
+			var shortData = yield wechatApi.createShortUrl(null, longUrl);
+			reply = shortData.short_url;
 		}
 
 		this.body = reply;
