@@ -73,6 +73,8 @@
 	//获取票据,accesstoken是客户端与微信交互的的唯一票据(钥匙)
 		this.getAccessToken = opts.getAccessToken;
 		this.saveAccessToken = opts.saveAccessToken;
+		this.getTicket = opts.getTicket;
+		this.saveTicket = opts.saveTicket;
 
 		this.fetchAccessToken();
 	}

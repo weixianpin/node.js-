@@ -2,11 +2,13 @@
 // 入口文件
 var Koa = require('koa');
 var path = require('path');
+var crypto = require('crypto');
 // var sha1 = require('sha1');
 var wechat = require('./wechat/generator.js');
 var util = require('./libs/util.js');
 var config = require('./config.js');
 var weixin = require('./weixin.js');
+var Wechat = require('./wechat/wechat.js');
 
 var wechat_file = path.join(__dirname,'./config/wechat.txt');
 
@@ -36,11 +38,16 @@ var tpl = heredoc(function () {/*
 			<script>
 				wx.config({
 				    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-				    appId: '', // 必填，公众号的唯一标识
-				    timestamp: , // 必填，生成签名的时间戳
-				    nonceStr: '', // 必填，生成签名的随机串
-				    signature: '',// 必填，签名，见附录1
-				    jsApiList: [] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+				    appId: 'wx28d1909da0d656f6', // 必填，公众号的唯一标识
+				    timestamp: '<%= timestamp %>', // 必填，生成签名的时间戳
+				    nonceStr: '<%= noncestr %>', // 必填，生成签名的随机串
+				    signature: '<%= signature %>',// 必填，签名，见附录1
+				    jsApiList: [
+						'startRecord'
+						'stopRecord'
+						'onVoiceRcordEnd'
+						'translateVoice'
+				    ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 				});
 			</script>
 		</body>
@@ -52,7 +59,7 @@ var createNonce = function () {
 };
 //时间戳
 var createTimestamp = function () {
-	return parseInt(new.Date().getTime() / 1000, 10) + '';
+	return parseInt(new Date().getTime() / 1000, 10) + '';
 };
 
 var _sign = function (noncestr, ticket, timestamp, url) {
@@ -85,7 +92,15 @@ function sign (ticket, url) {
 
 app.use(function*(next) {
 	if (this.url.indexOf('/movie') > -1) {
-		this.body = ejs.render(tpl, {});
+		var wechatApi = Wechat(config.weChat);
+		var data = wechatApi.fetchAccessToken();
+		var access_token = data.access_token;
+		var ticketData = wechatApi.fetchTicket(access_token);
+		var ticket = data.ticket;
+		var url = this.href;
+		var params = sign(ticket, url);
+
+		this.body = ejs.render(tpl, params);//将数据传入html页面内
 		return next;
 	}
 	yield next;
