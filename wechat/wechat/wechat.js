@@ -60,6 +60,9 @@
 		},
 		shortUrl: {
 			create: prefix + 'shorturl?'
+		},
+		ticket: {
+			get: prefix + 'ticket/getticket'
 		}
 		
 	};
@@ -76,11 +79,11 @@
 
 	Wechat.prototype.fetchAccessToken = function (data) {
 		var that = this;
-		if (this.access_token && this.expires_in) {
-			if (this.isValidAccessToken(this)) {
-				return Promise.resolve(this);
-			}
-		}
+		// if (this.access_token && this.expires_in) {
+		// 	if (this.isValidAccessToken(this)) {
+		// 		return Promise.resolve(this);
+		// 	}
+		// }
 		//如果access_token无效，重新获取
 		return this.getAccessToken()
 					.then(function (data) {//then就是向下传递结果
@@ -98,12 +101,39 @@
 						}
 					})
 					.then(function (data) {
-						that.access_token = data.access_token;//将票据挂到data实例
-						that.expires_in = data.expires_in;//票据过期字段
+						// that.access_token = data.access_token;//将票据挂到data实例
+						// that.expires_in = data.expires_in;//票据过期字段
 						that.saveAccessToken(data);
 						return Promise.resolve(data);
 					});
 	};
+//获取票据ticket
+	Wechat.prototype.fetchTicket = function (access_token) {
+		var that = this;
+		
+		//如果access_token无效，重新获取
+		return this.getTicket()
+					.then(function (data) {//then就是向下传递结果
+						try {
+							data = JSON.parse(data);
+						}
+						catch (e){//如果票据不存在或不合法则更新票据
+							return that.updateTicket(access_token);
+						}
+						//检测票据的合法性
+						if (that.isValidTicket(data)) {
+							return Promise.resolve(data);
+						}else{
+							return that.updateTicket(access_token);
+						}
+					})
+					.then(function (data) {
+						
+						that.saveTicket(data);
+						return Promise.resolve(data);
+					});
+	};
+
 //定义isValidAccessToken
 	Wechat.prototype.isValidAccessToken = function (data) {
 		if (!data || !data.access_token || !data.expires_in) {
@@ -118,8 +148,22 @@
 			return false;
 		}
 	};
-//更新票据
-	Wechat.prototype.updateAccessToken = function (data) {
+
+	Wechat.prototype.isValidTicket = function (data) {
+		if (!data || !data.ticket || !data.expires_in) {
+			return false;
+		}
+		var ticket = data.ticket;
+		var expires_in = data.expires_in;
+		var time = (new Date().getTime());
+		if (ticket && time < expires_in) {
+			return true;
+		}else {
+			return false;
+		}
+	};
+
+	Wechat.prototype.updateAccessToken = function () {
 		var appID = this.appID;
 		var appSecret = this.appSecret;
 		var url = api.accessToken + '&appid=' + appID + '&secret=' + appSecret;
@@ -135,6 +179,24 @@
 		});
 		
 	};
+
+	//更新ticket票据
+		Wechat.prototype.updateTicket = function () {
+			
+			var url = api.ticket.get + '&access_token=' + access_token + '&type=jsapi';
+			return new Promise(function (resolve, reject) {
+				request({url: url, json: true}).then(function (response) {
+					var data = response.body;
+					var time = (new Date().getTime());
+				//服务器计算需要时间，提前20s刷新
+					var expires_in = time + (data.expires_in - 20)*1000;
+					data.expires_in = expires_in;
+					resolve(data);
+				});
+			});
+			
+		};
+
 //增加素材
 	Wechat.prototype.uploadMaterial = function (type, material, permanent) {
 		   var that = this;
