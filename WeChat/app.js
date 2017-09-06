@@ -3,6 +3,8 @@
 var Koa = require('koa');
 var path = require('path');
 var crypto = require('crypto');
+var ejs = require('ejs');
+var heredoc = require('heredoc');
 // var sha1 = require('sha1');
 var wechat = require('./wechat/generator.js');
 var util = require('./libs/util.js');
@@ -18,8 +20,6 @@ var wechat_file = path.join(__dirname,'./config/wechat.txt');
 /*为什么用koa而不用express，因为这种多异步的程序更适合用koa，
 而且koa的代码更加简单*/
 var app = new Koa();
-var ejs = require('ejs');
-var heredoc = require('heredoc');
 
 var tpl = heredoc(function () {/*
 	<!DOCTYPE html>
@@ -33,7 +33,7 @@ var tpl = heredoc(function () {/*
 			<p id="title"></p>
 			<div id="poster"></div>
 			<script src="http://zeptojs.com/zepto-docs.min.js"></script>
-			<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js">
+			<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js">
 			</script>
 			<script>
 				wx.config({
@@ -55,7 +55,7 @@ var tpl = heredoc(function () {/*
 */});
 //随机数
 var createNonce = function () {
-	return Math.random().toString(36).subStr(2, 15);
+	return Math.random().toString(36).substr(2, 15);
 };
 //时间戳
 var createTimestamp = function () {
@@ -92,14 +92,14 @@ function sign (ticket, url) {
 
 app.use(function*(next) {
 	if (this.url.indexOf('/movie') > -1) {
-		var wechatApi = Wechat(config.weChat);
-		var data = wechatApi.fetchAccessToken();
+		var wechatApi = new Wechat(config.weChat);
+		var data = yield wechatApi.fetchAccessToken();
 		var access_token = data.access_token;
-		var ticketData = wechatApi.fetchTicket(access_token);
-		var ticket = data.ticket;
-		var url = this.href;
+		var ticketData = yield wechatApi.fetchTicket(access_token);
+		var ticket = ticketData.ticket;
+		var url = this.href.replace(':8000', '');
 		var params = sign(ticket, url);
-
+		console.log(params);
 		this.body = ejs.render(tpl, params);//将数据传入html页面内
 		return next;
 	}
