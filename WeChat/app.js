@@ -39,7 +39,7 @@ var tpl = heredoc(function () {/*
 			</script>
 			<script>
 				wx.config({
-				    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+				    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 				    appId: 'wx28d1909da0d656f6', // 必填，公众号的唯一标识
 				    timestamp: '<%= timestamp %>', // 必填，生成签名的时间戳
 				    nonceStr: '<%= noncestr %>', // 必填，生成签名的随机串
@@ -55,11 +55,27 @@ var tpl = heredoc(function () {/*
 				wx.ready(function(){
 
 				    wx.checkJsApi({
-				        jsApiList: ['onVoiceRcordEnd'],
+				        jsApiList: ['onVoiceRecordEnd'],
 				        success: function(res) {
 				        	console.log(res);
 				        }
 				    });
+//分享给朋友
+					var shareContent = {
+						title: '', // 分享标题
+						desc: '', // 分享描述
+						link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+						imgUrl: '', // 分享图标
+						type: '', // 分享类型,music、video或link，不填默认为link
+						dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+						success: function () { 
+						    window.alert('分享成功')
+						},
+						cancel: function () { 
+						    window.alert('分享失败')
+						}
+					}
+					wx.onMenuShareAppMessage(shareContent);
 
 					var isRecording = false;
 
@@ -81,27 +97,27 @@ var tpl = heredoc(function () {/*
 
 						        wx.translateVoice({
 						           localId: localId, 
-						            isShowProgressTips: 1, 
-						            success: function (res) {
-						            	var result = translateResult;
+						           isShowProgressTips: 1, 
+						           success: function (res) {
+						            	var result = res.translateResult;
 						                $.ajax ({
-										  type: 'get',
+										  type: 'GET',
 										  url: 'https://api.douban.com/v2/movie/search?q=' + result,
 										  dataType: 'jsonp',
 										  jsonp: 'callback',
 										  success: function (data) {
-											var subject = data.subject[0];
-											
-											$('#title').html(subject.title);
+											console.log(data);
+											var subject = data.subjects[0];
+											console.log(subject);
+											$('#title').html(subject.title)
 
-											$('#year').html(subject.year);
+											$('#year').html(subject.year)
 
-											$('#director').html(subject.directors[0].name);
+											$('#director').html(subject.directors[0].name)
 
-											$('#poster').html('<img src="'+ subject.images.large + '" />');
+											$('#poster').html('<img src="'+ subject.images.large + '" />')
 
 										  }
-
 						                }) 
 						            }
 						        });
