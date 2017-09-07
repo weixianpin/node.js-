@@ -45,6 +45,12 @@ var tpl = heredoc(function () {/*
 				    nonceStr: '<%= noncestr %>', // 必填，生成签名的随机串
 				    signature: '<%= signature %>',// 必填，签名，见附录1
 				    jsApiList: [
+					    'onMenuShareTimeLine',
+					    'onMenuShareAppMessage',
+					    'onMenuShareQQ',
+					    'onMenuShareWwiBo',
+					    'onMenuShareQZone',
+					    'previewImage',
 						'startRecord',
 						'stopRecord',
 						'onVoiceRecordEnd', 
@@ -62,12 +68,10 @@ var tpl = heredoc(function () {/*
 				    });
 //分享给朋友
 					var shareContent = {
-						title: '', // 分享标题
-						desc: '', // 分享描述
-						link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-						imgUrl: '', // 分享图标
-						type: '', // 分享类型,music、video或link，不填默认为link
-						dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+						title: '分享电影',
+						desc: '12345', 
+						link: 'https://github.com/', 
+						imgUrl: 'https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/image/h%3D220/sign=eb93d20122381f3081198aab99004c67/242dd42a2834349b76878ebcc3ea15ce36d3be02.jpg',
 						success: function () { 
 						    window.alert('分享成功')
 						},
@@ -75,9 +79,14 @@ var tpl = heredoc(function () {/*
 						    window.alert('分享失败')
 						}
 					}
-					wx.onMenuShareAppMessage(shareContent);
 
+					wx.onMenuShareAppMessage(shareContent);
+					var slides
 					var isRecording = false;
+
+					$('#poster').on('tap', function () {
+						wx.previewImage(slides);
+					});
 
 				    $('h1').on('tap', function () {
 				    	if(!isRecording) {
@@ -109,13 +118,37 @@ var tpl = heredoc(function () {/*
 											console.log(data);
 											var subject = data.subjects[0];
 											console.log(subject);
-											$('#title').html(subject.title)
+											$('#title').html('电影名称：'+subject.title)
 
-											$('#year').html(subject.year)
+											$('#year').html('年份：'+subject.year)
 
-											$('#director').html(subject.directors[0].name)
+											$('#director').html('导演：'+subject.directors[0].name)
 
 											$('#poster').html('<img src="'+ subject.images.large + '" />')
+
+											shareContent = {
+											  title: subject.title, 
+											  desc: '我搜出来了'+subject.title, 
+											  link: 'https://github.com', 
+											  imgUrl: subject.images.large,
+											  success: function () { 
+											    window.alert('分享成功')
+											  },
+											  cancel: function () { 
+											    window.alert('分享失败')
+											  }
+											}
+
+											slides = {
+											  current: subject.images.large,
+											  urls: [subject.images.large],
+											}
+											data.subjects.forEach(function(item) {
+											  slides.urls.push(item.images.large)
+											})
+
+											
+											wx.onMenuShareAppMessage(shareContent);
 
 										  }
 						                }) 
