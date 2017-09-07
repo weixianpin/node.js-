@@ -25,12 +25,14 @@ var tpl = heredoc(function () {/*
 	<!DOCTYPE html>
 	<html>
 		<head>
-			<title>猜电影</title>
-			<meta name="viewport" content="initial-scal=1, maximum-scale=1, minimum-scale=1" />
+			<title>搜索电影</title>
+			<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1" />
 		</head>
 		<body>
-			<h1>点击标题，开始录音翻译</h1>
+			<h1>点我开始语音搜索电影</h1>
 			<p id="title"></p>
+			<div id="director"></div>
+			<div id="year"></div>
 			<div id="poster"></div>
 			<script src="http://zeptojs.com/zepto-docs.min.js"></script>
 			<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js">
@@ -43,11 +45,69 @@ var tpl = heredoc(function () {/*
 				    nonceStr: '<%= noncestr %>', // 必填，生成签名的随机串
 				    signature: '<%= signature %>',// 必填，签名，见附录1
 				    jsApiList: [
-						'startRecord'
-						'stopRecord'
-						'onVoiceRcordEnd'
+						'startRecord',
+						'stopRecord',
+						'onVoiceRecordEnd', 
 						'translateVoice'
 				    ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+				});
+
+				wx.ready(function(){
+
+				    wx.checkJsApi({
+				        jsApiList: ['onVoiceRcordEnd'],
+				        success: function(res) {
+				        	console.log(res);
+				        }
+				    });
+
+					var isRecording = false;
+
+				    $('h1').on('tap', function () {
+				    	if(!isRecording) {
+				    		isRecording = true;
+					    	wx.startRecord({
+							  cancel: function () {
+								window.alert('那就无法搜索电影了');
+							  }
+							});
+							return;
+				    	}
+						isRecording = false;
+
+						wx.stopRecord({
+						    success: function (res) {
+						        var localId = res.localId;
+
+						        wx.translateVoice({
+						           localId: localId, 
+						            isShowProgressTips: 1, 
+						            success: function (res) {
+						            	var result = translateResult;
+						                $.ajax ({
+										  type: 'get',
+										  url: 'https://api.douban.com/v2/movie/search?q=' + result,
+										  dataType: 'jsonp',
+										  jsonp: 'callback',
+										  success: function (data) {
+											var subject = data.subject[0];
+											
+											$('#title').html(subject.title);
+
+											$('#year').html(subject.year);
+
+											$('#director').html(subject.directors[0].name);
+
+											$('#poster').html('<img src="'+ subject.images.large + '" />');
+
+										  }
+
+						                }) 
+						            }
+						        });
+						    }
+						});
+				    });
 				});
 			</script>
 		</body>
@@ -68,7 +128,6 @@ var _sign = function (noncestr, ticket, timestamp, url) {
 		'jsapi_ticket=' + ticket,
 		'timestamp=' + timestamp,
 		'url=' + url
-
 	];
 	var str = params.sort().join('&');
 	var shasum = crypto.createHash('sha1');//crypto加密库
@@ -82,7 +141,8 @@ function sign (ticket, url) {
 	var noncestr = createNonce();
 	var timestamp = createTimestamp();
 	var signature = _sign(noncestr, ticket, timestamp, url);
-
+	console.log(ticket);
+	console.log(url);
 	return {
 		noncestr: noncestr,
 		timestamp: timestamp,
@@ -97,7 +157,7 @@ app.use(function*(next) {
 		var access_token = data.access_token;
 		var ticketData = yield wechatApi.fetchTicket(access_token);
 		var ticket = ticketData.ticket;
-		var url = this.href.replace(':8000', '');
+		var url = this.href;//.replace(':8000', '')
 		var params = sign(ticket, url);
 		console.log(params);
 		this.body = ejs.render(tpl, params);//将数据传入html页面内

@@ -62,7 +62,7 @@
 			create: prefix + 'shorturl?'
 		},
 		ticket: {
-			get: prefix + 'ticket/getticket'
+			get: prefix + 'ticket/getticket?'
 		}
 		
 	};
@@ -81,11 +81,11 @@
 
 	Wechat.prototype.fetchAccessToken = function (data) {
 		var that = this;
-		if (this.access_token && this.expires_in) {
-			if (this.isValidAccessToken(this)) {
-				return Promise.resolve(this);
-			}
-		}
+		// if (this.access_token && this.expires_in) {
+		// 	if (this.isValidAccessToken(this)) {
+		// 		return Promise.resolve(this);
+		// 	}
+		// }
 		//如果access_token无效，重新获取
 		return this.getAccessToken()
 					.then(function (data) {//then就是向下传递结果
@@ -103,8 +103,8 @@
 						}
 					})
 					.then(function (data) {
-						that.access_token = data.access_token;//将票据挂到data实例
-						that.expires_in = data.expires_in;//票据过期字段
+						// that.access_token = data.access_token;//将票据挂到data实例
+						// that.expires_in = data.expires_in;//票据过期字段
 						that.saveAccessToken(data);
 						return Promise.resolve(data);
 					});
@@ -165,7 +165,7 @@
 		}
 	};
 
-	Wechat.prototype.updateAccessToken = function (data) {
+	Wechat.prototype.updateAccessToken = function () {
 		var appID = this.appID;
 		var appSecret = this.appSecret;
 		var url = api.accessToken + '&appid=' + appID + '&secret=' + appSecret;
@@ -183,7 +183,7 @@
 	};
 
 	//更新ticket票据
-		Wechat.prototype.updateTicket = function () {
+		Wechat.prototype.updateTicket = function (access_token) {
 			
 			var url = api.ticket.get + '&access_token=' + access_token + '&type=jsapi';
 			return new Promise(function (resolve, reject) {
