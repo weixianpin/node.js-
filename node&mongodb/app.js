@@ -1,10 +1,15 @@
 
 var express = require('express');
+var path = require('path');
+var bodyParser = require('body-parser');
+
 var port = process.env.PORT || 3000;
 var app = express();
 
-app.set('views', './views');
+app.set('views', './views/pages');
 app.set('view engine', 'jade');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'bower_components')));
 app.listen(port);
 
 console.log('movie started on port ' + port);
