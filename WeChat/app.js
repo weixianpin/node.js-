@@ -141,7 +141,7 @@ var tpl = heredoc(function () {/*
 
 											slides = {
 											  current: subject.images.large,
-											  urls: [subject.images.large],
+											  urls: [subject.images.large]
 											}
 											data.subjects.forEach(function(item) {
 											  slides.urls.push(item.images.large)
