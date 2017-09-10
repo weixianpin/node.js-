@@ -39,12 +39,12 @@ MovieSchema.statics = {
 		return this
 		.find({})//查询数据
 		.sort('meta.updateAt')
-		exec(cb);
+		.exec(cb);
 	}, 
 	findById: function(id, cb) {
 		return this
 		.findOne({_id: id})//查询数据
-		exec(cb);
+		.exec(cb);
 	}
 };
 module.exports = MovieSchema;
