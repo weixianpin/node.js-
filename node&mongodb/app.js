@@ -85,44 +85,7 @@ app.get('/admin/update/:id', function(req, res) {
 	}
 });
  
-//admin post movie
-app.post('/admin/movie/new', function(req, res) {
-	var id = req.body.movie._id;
-	var movieObj = req.body.movie;//post 过来的movie
-	var _movie;
 
-	if(id !== 'undefined') {
-		Movie.findById(id, function(err, movie) {
-			if(err) {
-				console.log(err);
-			}
-			_movie = _.extend(movie, movieObj);//将post过来的数据替换原先的数据
-			_movie.save(function(err, movie) {
-				if(err) {
-					console.log(err);
-				}
-				res.redirect('/movie/' + movie.id);
-			});
-		});
-	}else {
-		_movie = new Movie({
-			title: movieObj.title,
-			director: movieObj.director,
-			country: movieObj.country,
-			year: movieObj.year,
-			language: movieObj.language,
-			poster: movieObj.poster,
-			flash: movieObj.flash,
-			summary: movieObj.summary
-		});
-		_movie.save(function(err, movie) {
-				if(err) {
-					console.log(err);
-				}
-				res.redirect('/movie/' + movie.id);
-			});
-	}
-});
 
 //admin page
 app.get('/admin/movie', function (req, res) {
