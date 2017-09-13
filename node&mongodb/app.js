@@ -17,7 +17,7 @@ app.set('view engine', 'jade');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.listen(port);
-console.log('movie started on port ' + port);
+console.log('movie started on port' + port);
 
 //index page
 app.get('/', function (req, res) {
