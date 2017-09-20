@@ -22,58 +22,7 @@ exports.reply = function*(next) {
 			
 			this.body = '谢谢长得好的你订阅了这个号';
 		}
-		else if (message.Event === 'unsubscribe') {
 		
-			console.log('无情取关');
-			this.body = '';
-		}
-		else if (message.Event === 'LOCATION') {
-			this.body = '您上报的位置是：' + message.Latitude + '' + message.Longitude + '-' + message.Precision;
-		}
-		else if (message.Event === 'CLICK') {
-			this.body = '您点击了菜单' + message.EventKey;
-		}
-		else if (message.Event === 'SCAN') {
-			console.log('关注后扫描二维码' + message.EventKey + message.Ticket);
-			this.body = '看到后，请关注';
-		}
-		else if (message.Event === 'VIEW') {
-			this.body = '您点击了菜单中的链接' + message.EventKey;
-		}
-		else if (message.Event === 'scancode_push') {
-			console.log(message.ScanCodeInfo.ScanType);
-			console.log(message.ScanCodeInfo.ScanResult);
-			this.body = '您点击了菜单中的链接' + message.EventKey;
-		}
-		else if (message.Event === 'scancode_waitmsg') {
-			console.log(message.ScanCodeInfo.ScanType);
-			console.log(message.ScanCodeInfo.ScanResult);
-			this.body = '您点击了菜单中的链接' + message.EventKey;
-		}
-		else if (message.Event === 'pic_sysphoto') {
-			console.log(message.SendPicInfo.PicList);
-			console.log(message.SendPicInfo.Count);
-			this.body = '您点击了菜单中的链接' + message.EventKey;
-		}
-		else if (message.Event === 'pic_photo_or_album') {
-			console.log(message.SendPicInfo.PicList);
-			console.log(message.SendPicInfo.Count);
-			this.body = '您点击了菜单中的链接' + message.EventKey;
-		}
-		else if (message.Event === 'pic_weixin') {
-			console.log(message.SendPicInfo.PicList);
-			console.log(message.SendPicInfo.Count);
-			this.body = '您点击了菜单中的链接' + message.EventKey;
-		}
-		else if (message.Event === 'location_select') {
-			console.log(message.SendLocationInfo.Location_X);
-			console.log(message.SendLocationInfo.Location_Y);
-			console.log(message.SendLocationInfo.Location_Scale);
-			console.log(message.SendLocationInfo.Location_Label);
-			console.log(message.SendLocationInfo.Location_Poiname);
-			this.body = '您点击了菜单中的链接' + message.EventKey;
-		}
-	}
 
 	else if (message.MsgType === 'text') {
 		var content = message.Content;
