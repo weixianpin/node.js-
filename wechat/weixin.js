@@ -75,7 +75,80 @@ exports.reply = function*(next) {
 		}
 	}
 
-	
+	else if (message.MsgType === 'text') {
+		var content = message.Content;
+		var reply = '你说的' + message.Content + '太复杂了，我无法回复';
+
+		if (content === '1') {
+			reply = '李会娟真好看';
+		}
+		else if (content === '2') {
+			reply = '李会娟真漂亮';
+		}
+		else if (content === '3') {
+			reply = '李会娟真美丽';
+		}
+		else if (content === '4') {
+			reply = [{
+						title: '一个大美女',
+						description: '你好，我叫李会娟，有点可爱，有时候也会犯2',
+						picUrl: 'http://otwll2i2i.bkt.clouddn.com/littleGirl1.JPG',
+						url: 'https://github.com/'
+				},
+				{
+					title: '还是一个大美女',
+					description: '这只是一个描述',
+					picUrl: 'http://otwll2i2i.bkt.clouddn.com/littleGirl2.JPG',
+					url: 'https://nodejs.org/'
+			}];
+		}
+		else if (content === '5') {
+			var data = yield wechatApi.uploadMaterial('image', __dirname + '/2.jpg');
+			reply = {
+				type: 'image',
+				mediaId: data.media_id
+			};
+			console.log(reply);
+		}//上传永久素材
+		else if (content === '6') {
+			var data = yield wechatApi.uploadMaterial('image', __dirname +'/2.jpg', {type: 'image'});
+			reply = {
+				type: 'image',
+				mediaId: data.media_id
+			};
+			console.log(reply);
+		}
+		else if (content === '7') {
+			var picData = yield wechatApi.uploadMaterial('image', __dirname + '/2.jpg', {});
+			var media = {
+					articles: [{
+					title: '没有标题',
+					thumb_media_id: picData.media_id,
+					author: '没有作者',
+					digest: '没有摘要',
+					show_cover_pic: 1,
+					content: '没有内容',
+					content_source_url: 'https://github.com'//阅读全文地址
+				}]
+			};
+			data = yield wechatApi.uploadMaterial('news', media, {});
+			data = yield wechatApi.fetchMaterial(data.media_id, 'news', {});
+
+			console.log(data);
+
+			var items = data.news_item;
+			var news = [];
+
+			items.forEach(function (item) {
+				news.push({
+					title: item.title,
+					description: item.digest,
+					picUrl: picData.url,
+					url: item.url
+				});
+			});
+			reply = news;
+		}
 		else if (content === '8') {
 			var counts = yield wechatApi.countMaterial();
 			console.log(JSON.stringify(counts));
