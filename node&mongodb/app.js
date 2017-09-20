@@ -20,71 +20,7 @@ app.listen(port);
 console.log('movie started on port' + port);
 
 //index page
-app.get('/', function (req, res) {
-	Movie.fetch(function(err, movies) {
-		if (err) {
-				console.log(err);
-		}
-		res.render('index', {
-			title: 'movie 首页',
-			movies: movies
-		}); 
-	});
-});
-//list page
-app.get('/admin/list', function (req, res) {
-	Movie.fetch(function(err, movies) {
-		if (err) {
-				console.log(err);
-		}
-		res.render('admin', {
-			title: 'movie 后台录入页',
-			movies: movies
-		}); 
-	});
-});
 
-//list movie delete
-app.delete('/admin/list', function(req, res) {
-	var id = req.query.id;
-
-	if (id) {
-		Movie.remove({_id: id}, function(err, movie) {
-			if(err) {
-				console.log(err);
-			}
-			else {
-				res.json({success: 1});
-			}
-		});
-	}
-});
-
-//detail page
-app.get('/movie/:id', function (req, res) {
-	var id = req.params.id;
-	Movie.findById(id, function(err, movie){
-	res.render('detail', {
-			title: 'movie' + movie.title,
-			movie: movie
-		});
-	});
-	
-});
-
-//admin update movie
-app.get('/admin/update/:id', function(req, res) {
-	var id = req.params.id;
-	if(id) {
-		Movie.findById(id, function(err, movie) {
-			res.render('admin', {
-				title: 'movie 后台更新页面',
-				movie: movie
-			});
-		});
-	}
-});
- 
 //admin post movie
 app.post('/admin/movie/new', function(req, res) {
 	var id = req.body.movie._id;
