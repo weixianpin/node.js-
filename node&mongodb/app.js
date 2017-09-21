@@ -14,7 +14,8 @@ mongoose.connect('mongodb://localhost/movie');//链接数据库
 app.locals.moment = require('moment');
 app.set('views', './views/pages');
 app.set('view engine', 'jade');
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.listen(port);
 console.log('movie started on port' + port);
@@ -84,7 +85,7 @@ app.post('/admin/movie/new', function(req, res) {
 	if(id !== 'undefined') {
 		Movie.findById(id, function(err, movie) {
 			if(err) {
-				console.log(err);
+				return console.log(err);
 			}
 			_movie = _.extend(movie, movieObj);//将post过来的数据替换原先的数据
 			_movie.save(function(err, movie) {
@@ -118,16 +119,16 @@ app.post('/admin/movie/new', function(req, res) {
 app.get('/admin/list', function (req, res) {
 	Movie.fetch(function(err, movies) {
 		if (err) {
-				console.log(err);
+			return console.log(err);
 		}
-		res.render('admin', {
+		res.render('list', {
 			title: 'movie 后台录入页',
 			movies: movies
 		}); 
 	});
 });
 
-//list movie delete
+//list delete movie 
 app.delete('/admin/list', function(req, res) {
 	var id = req.query.id;
 
