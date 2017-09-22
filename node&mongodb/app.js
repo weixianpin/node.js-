@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var _ = require('underscore');
 var Movie = require('./modules/movie.js');
+var User = require('./modules/user.js');
 
 var port = process.env.PORT || 3000;
 var app = express();
