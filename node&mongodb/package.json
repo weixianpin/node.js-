@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "express": "^4.15.4",
     "jade": "^1.11.0",
     "moment": "^2.18.1",
