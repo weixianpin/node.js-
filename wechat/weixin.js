@@ -275,4 +275,23 @@ exports.reply = function*(next) {
 
 			reply = '发送成功';
 		}
-		
+		else if (content === '15') {
+			var longUrl = 'http://www.imooc.com/';
+			var shortData = yield wechatApi.createShortUrl(null, longUrl);
+			reply = shortData.short_url;
+		}
+		else if (content === '16') {
+			var semanticData = {
+				query: '战狼2',
+				city: '杭州',
+				category: 'movie',
+				uid: message.FromUserName
+			};
+			var _semanticData = yield wechatApi.semantic(semanticData);
+			reply = JSON.stringify(_semanticData);
+		}
+
+		this.body = reply;
+	}
+	yield next;
+};
