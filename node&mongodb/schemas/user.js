@@ -47,6 +47,17 @@ UserSchema.pre('save', function (next) {
 	next();
 });
 
+UserSchema.methods = {
+	comparePassword: function(_password, cb) {// 用户提交的password
+		bcrypt.compare(_password, this.password, function(err, isMatch) {
+			if(err) {
+				return cb(err);
+			}
+			cb(null, isMatch);
+		});
+	}
+};
+
 UserSchema.statics = {
 	//取到数据库所有数据
 	fetch: function(cb) {

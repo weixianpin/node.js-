@@ -37,19 +37,57 @@ app.get('/', function (req, res) {
 
 //signup
 app.post('/user/signup', function(req,res) {
-	var _user =  req.body.user;//从body中获取user
-	
-	var user = new User(_user);
-	//调用save方法
-	user.save(function(err, user) {
+	var _user =  req.body.user; //从提交表单中获取user
+	User.find('name:{_user.name}' , function(err, user) {
 		if(err) {
 			console.log(err);
-		}else {
-			// console.log(user);
-			res.redirect('/admin/userlist');// 重定向到首页
+		}
+		// 该用户名已经被注册
+		if(user) {
+			return res.redirect('');// 重定向到首页
+		}
+		else {
+			user = new User(_user);
+			//调用save方法
+			user.save(function(err, user) {
+				if(err) {
+					console.log(err);
+				}else {
+					// console.log(user);
+					res.redirect('/admin/userlist');// 重定向到首页
+				}
+			});
 		}
 	});
+	
 });
+
+// signin
+app.post('/user/signin', function(req, res) {
+	var _user = req.body.user;
+	var name = _user.name;
+	var password = user.password;
+
+	User.findOne('{name: name}', function(err, user) {
+		if(err) {
+			console.log(err);
+		}
+		if(!user) {
+			return res.redirect('/');
+		}
+		user.comparePassword(password, function(err, isMatch) {
+			if(err) {
+				console.log(err);
+			}
+			if(isMatch) {
+				return res.redirect('');
+			}else {
+				console.log('Password Not Matched');
+			}
+		});
+	});
+});
+
 // user list page
 app.get('/admin/userlist', function (req, res) {
 	User.fetch(function(err, users) {
