@@ -35,6 +35,34 @@ app.get('/', function (req, res) {
 });
 
 
+//signup
+app.post('/user/signup', function(req,res) {
+	var _user =  req.body.user;//从body中获取user
+	
+	var user = new User(_user);
+	//调用save方法
+	user.save(function(err, user) {
+		if(err) {
+			console.log(err);
+		}else {
+			// console.log(user);
+			res.redirect('/admin/userlist');// 重定向到首页
+		}
+	});
+});
+// user list page
+app.get('/admin/userlist', function (req, res) {
+	User.fetch(function(err, users) {
+		if (err) {
+			return console.log(err);
+		}
+		res.render('userlist', {
+			title: 'movie 用户列表页',
+			users: users
+		}); 
+	});
+});
+
 //detail page
 app.get('/movie/:id', function (req, res) {
 	var id = req.params.id;
@@ -123,7 +151,7 @@ app.get('/admin/list', function (req, res) {
 			return console.log(err);
 		}
 		res.render('list', {
-			title: 'movie 后台录入页',
+			title: 'movie 列表页',
 			movies: movies
 		}); 
 	});
