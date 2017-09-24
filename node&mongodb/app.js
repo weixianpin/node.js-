@@ -80,7 +80,8 @@ app.post('/user/signin', function(req, res) {
 				console.log(err);
 			}
 			if(isMatch) {
-				return res.redirect('');
+				console.log('Password is Matched');
+				return res.redirect('/');
 			}else {
 				console.log('Password Not Matched');
 			}
