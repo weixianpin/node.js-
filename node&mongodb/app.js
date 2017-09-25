@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var _ = require('underscore');
 var Movie = require('./modules/movie.js');
 var User = require('./modules/user.js');
+var mongoStore = require('connect-mongo')(express);
 
 var port = process.env.PORT || 3000;
 var app = express();
@@ -17,12 +18,22 @@ app.set('views', './views/pages');
 app.set('view engine', 'jade');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.cookieParser);
+app.use(express.session({
+	secret: 'movie',
+	store: new mongoStore({
+		url: 'mongodb://localhost/movie',
+		collection: 'sessions'
+	})
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.listen(port);
 console.log('movie started on port' + port);
 
 //index page
 app.get('/', function (req, res) {
+	console.log('user in session: ');
+	console.log(req.session.user);
 	Movie.fetch(function(err, movies) {
 		if (err) {
 				console.log(err);
@@ -80,6 +91,7 @@ app.post('/user/signin', function(req, res) {
 				console.log(err);
 			}
 			if(isMatch) {
+				req.session.user = user;
 				console.log('Password is Matched');
 				return res.redirect('/');
 			}else {

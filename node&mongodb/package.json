@@ -15,5 +15,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "weixianpin",
-  "license": "ISC"
+  "license": "ISC",
+  "private": "true"
 }
