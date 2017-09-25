@@ -34,6 +34,11 @@ console.log('movie started on port' + port);
 app.get('/', function (req, res) {
 	console.log('user in session: ');
 	console.log(req.session.user);
+
+	var _user = req.session.user;
+	if(_user) {
+		app.locals.user = _user;
+	}
 	Movie.fetch(function(err, movies) {
 		if (err) {
 				console.log(err);
@@ -55,7 +60,7 @@ app.post('/user/signup', function(req,res) {
 		}
 		// 该用户名已经被注册
 		if(user) {
-			return res.redirect('');// 重定向到首页
+			return res.redirect('/');// 重定向到首页
 		}
 		else {
 			user = new User(_user);
@@ -99,6 +104,13 @@ app.post('/user/signin', function(req, res) {
 			}
 		});
 	});
+});
+
+app.get('/logout', function(req, res) {
+	delete req.session.user;
+	delete req.locals.user;
+
+	res.redirect('/');
 });
 
 // user list page
