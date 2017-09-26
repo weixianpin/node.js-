@@ -6,7 +6,8 @@ var mongoose = require('mongoose');
 var _ = require('underscore');
 var Movie = require('./modules/movie.js');
 var User = require('./modules/user.js');
-// var mongoStore = require('connect-mongo')(express);
+var session = require('express-session')
+var mongoStore = require('connect-mongo')(session);
 
 var port = process.env.PORT || 3000;
 var app = express();
@@ -19,7 +20,7 @@ app.set('view engine', 'jade');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.cookieParser);
-app.use(express.session({
+app.use(session({
 	secret: 'movie',
 	store: new mongoStore({
 		url: 'mongodb://localhost/movie',
@@ -30,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.listen(port);
 console.log('movie started on port' + port);
 
-// pre handle use 预处理
+// pre handle user 预处理
 app.use(function(req, res, next) {
 	var _user = req.session.user;
 		if(_user) {
