@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var _ = require('underscore');
 var Movie = require('./modules/movie.js');
 var User = require('./modules/user.js');
-var mongoStore = require('connect-mongo')(express);
+// var mongoStore = require('connect-mongo')(express);
 
 var port = process.env.PORT || 3000;
 var app = express();
@@ -105,7 +105,7 @@ app.post('/user/signin', function(req, res) {
 		});
 	});
 });
-
+// signout
 app.get('/logout', function(req, res) {
 	delete req.session.user;
 	delete req.locals.user;
