@@ -30,15 +30,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.listen(port);
 console.log('movie started on port' + port);
 
+// pre handle use 预处理
+app.use(function(req, res, next) {
+	var _user = req.session.user;
+		if(_user) {
+			app.locals.user = _user;
+		}
+		return next();
+});
+
 //index page
 app.get('/', function (req, res) {
 	console.log('user in session: ');
 	console.log(req.session.user);
 
-	var _user = req.session.user;
-	if(_user) {
-		app.locals.user = _user;
-	}
 	Movie.fetch(function(err, movies) {
 		if (err) {
 				console.log(err);
