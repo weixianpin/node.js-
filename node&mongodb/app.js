@@ -6,7 +6,8 @@ var mongoose = require('mongoose');
 var _ = require('underscore');
 var Movie = require('./modules/movie.js');
 var User = require('./modules/user.js');
-var session = require('express-session')
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var mongoStore = require('connect-mongo')(session);
 
 var port = process.env.PORT || 3000;
@@ -19,7 +20,7 @@ app.set('views', './views/pages');
 app.set('view engine', 'jade');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(express.cookieParser);
+app.use(cookieParser());
 app.use(session({
 	secret: 'movie',
 	store: new mongoStore({
