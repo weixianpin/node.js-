@@ -1,4 +1,3 @@
-
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -24,16 +23,3 @@ app.use(session({
 	})
 }));
 
-if('development' === app.get('env')) {
-	app.set('showStackError', true);
-	app.user(express.logger(':method :url :status'));
-	app.locals.pretty = true;
-	mongoose.set('debug', true);
-}
-var routes = require('./config/routes.js')(app);
-app.listen(port);
-app.locals.moment = require('moment');
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-console.log('movie started on port' + port);
