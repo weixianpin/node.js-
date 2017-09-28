@@ -1,8 +1,12 @@
-
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var ObjectId = Schema.Types.ObjectId;
 
-var CommentSchema = new mongoose.Schema({
-	
+var CommentSchema = new Schema({
+	movie: {type: ObjectId, ref: 'Movie'},
+	from: {type: ObjectId, ref: 'User'}, // 评论者
+	to: {type: ObjectId, ref: 'User'}, // 被评论者
+	content: String, // 评论内容
 	meta: {
 		createAt:{
 			type: Date,
