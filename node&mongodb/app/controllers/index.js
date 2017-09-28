@@ -1,3 +1,4 @@
+var Movie = require('../modules/movie.js');
 //index page
 exports.index = function (req, res) {
 	console.log('user in session: ');
