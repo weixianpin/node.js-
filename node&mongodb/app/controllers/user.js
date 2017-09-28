@@ -18,7 +18,7 @@ exports.signup = function(req,res) {
 		}
 		// 该用户名已经被注册
 		if(user) {
-			return res.redirect('/');// 重定向到首页
+			return res.redirect('/signin');// 重定向到登录页
 		}
 		else {
 			user = new User(_user);
@@ -28,7 +28,7 @@ exports.signup = function(req,res) {
 					console.log(err);
 				}else {
 					// console.log(user);
-					res.redirect('/admin/userlist');// 重定向到首页
+					res.redirect('/');// 重定向到首页
 				}
 			});
 		}
@@ -55,7 +55,7 @@ exports.signin = function(req, res) {
 			console.log(err);
 		}
 		if(!user) {
-			return res.redirect('/');
+			return res.redirect('signup');
 		}
 		user.comparePassword(password, function(err, isMatch) {
 			if(err) {
@@ -67,6 +67,7 @@ exports.signin = function(req, res) {
 				return res.redirect('/');
 			}else {
 				console.log('Password Not Matched');
+				return res.redirect('/signin');
 			}
 		});
 	});
@@ -80,7 +81,7 @@ exports.logout = function(req, res) {
 	res.redirect('/');
 };
 
-// user list page
+// userlist page
 exports.userlist = function (req, res) {
 	User.fetch(function(err, users) {
 		if (err) {
@@ -91,4 +92,20 @@ exports.userlist = function (req, res) {
 			users: users
 		}); 
 	});
+};
+// authority for admin
+exports.signinRequired = function (req, res, next) {
+	var user = req.session.user;
+	if(!user) {
+		return res.redirect('/signin');
+	}
+	next();
+};
+
+exports.adminRequired = function (req, res, next) {
+	var user = req.session.user;
+	if(user.role <= 10) {
+		return res.redirect('/signin');
+	}
+	next();
 };

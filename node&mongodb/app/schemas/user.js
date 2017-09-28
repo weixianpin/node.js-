@@ -9,6 +9,14 @@ var UserSchema = new mongoose.Schema({
 		type: String
 	},
 	password: String,
+	// 0: normal user
+	// 1: super user
+	// >10: admin
+	// >20: super admin 
+	role: {
+		type: Number,
+		default: 0
+	},
 	meta: {
 		createAt:{
 			type: Date,

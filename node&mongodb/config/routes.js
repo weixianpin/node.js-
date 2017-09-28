@@ -24,18 +24,18 @@ module.exports = function(app) {
 	// logout
 	app.get('/logout', User.logout);
 	// user list page
-	app.get('/admin/userlist', User.userlist);
+	app.get('/admin/userlist', User.signinRequired, User.adminRequired, User.userlist);
 
 	//detail page
 	app.get('/movie/:id', Movie.detail);
 	//admin new page
-	app.get('/admin/movie', Movie.new);
+	app.get('/admin/movie', User.signinRequired, User.adminRequired, Movie.new);
 	//admin update movie
-	app.get('/admin/update/:id', Movie.update);
+	app.get('/admin/update/:id', User.signinRequired, User.adminRequired, Movie.update);
 	//admin post movie
-	app.post('/admin/movie/new', Movie.save);
+	app.post('/admin/movie/new', User.signinRequired, User.adminRequired, Movie.save);
 	//list page
-	app.get('/admin/list', Movie.list);
+	app.get('/admin/list', User.signinRequired, User.adminRequired, Movie.list);
 	//list delete movie 
-	app.delete('/admin/list', Movie.delete);
+	app.delete('/admin/list', User.signinRequired, User.adminRequired, Movie.delete);
 };
