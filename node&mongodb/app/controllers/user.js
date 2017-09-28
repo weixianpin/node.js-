@@ -1,6 +1,15 @@
 var User = require('../modules/user.js');
 
+
 //signup
+exports.showSignup = function (req, res) {
+	
+		res.render('signup', {
+			title: '注册页面',
+			users: users
+		});
+};
+
 exports.signup = function(req,res) {
 	var _user =  req.body.user; //从提交表单中获取user
 	User.find('name:{_user.name}' , function(err, user) {
@@ -28,6 +37,14 @@ exports.signup = function(req,res) {
 };
 
 // signin
+exports.showSignin = function (req, res) {
+	
+		res.render('signin', {
+			title: '登陆页面',
+			users: users
+		});
+};
+
 exports.signin = function(req, res) {
 	var _user = req.body.user;
 	var name = _user.name;
