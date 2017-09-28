@@ -1,0 +1,74 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'E:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'E:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'grunt-contrib-concurrent',
+1 verbose cli   '--save',
+1 verbose cli   '-dev',
+1 verbose cli   '--registry=https://registry.npm.taobao.orghttps://registry.npm.taobao.org' ]
+2 info using npm@3.10.10
+3 info using node@v6.10.3
+4 warn install Usage of the `--dev` option is deprecated. Use `--only=dev` instead.
+5 silly loadCurrentTree Starting
+6 silly install loadCurrentTree
+7 silly install readLocalPackageData
+8 silly fetchPackageMetaData grunt-contrib-concurrent
+9 silly fetchNamedPackageData grunt-contrib-concurrent
+10 silly mapToRegistry name grunt-contrib-concurrent
+11 silly mapToRegistry using default registry
+12 silly mapToRegistry registry https://registry.npm.taobao.orghttps//registry.npm.taobao.org
+13 silly mapToRegistry data Result {
+13 silly mapToRegistry   raw: 'grunt-contrib-concurrent',
+13 silly mapToRegistry   scope: null,
+13 silly mapToRegistry   escapedName: 'grunt-contrib-concurrent',
+13 silly mapToRegistry   name: 'grunt-contrib-concurrent',
+13 silly mapToRegistry   rawSpec: '',
+13 silly mapToRegistry   spec: 'latest',
+13 silly mapToRegistry   type: 'tag' }
+14 silly mapToRegistry uri https://registry.npm.taobao.orghttps//registry.npm.taobao.org/grunt-contrib-concurrent
+15 verbose request uri https://registry.npm.taobao.orghttps//registry.npm.taobao.org/grunt-contrib-concurrent
+16 verbose request no auth needed
+17 info attempt registry request try #1 at 18:26:46
+18 verbose request id 5ba00416294dc52d
+19 http request GET https://registry.npm.taobao.orghttps//registry.npm.taobao.org/grunt-contrib-concurrent
+20 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npm.taobao.orghttps registry.npm.taobao.orghttps:443
+21 info attempt registry request try #2 at 18:26:56
+22 http request GET https://registry.npm.taobao.orghttps//registry.npm.taobao.org/grunt-contrib-concurrent
+23 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npm.taobao.orghttps registry.npm.taobao.orghttps:443
+24 info attempt registry request try #3 at 18:27:56
+25 http request GET https://registry.npm.taobao.orghttps//registry.npm.taobao.org/grunt-contrib-concurrent
+26 silly fetchPackageMetaData Error: getaddrinfo ENOTFOUND registry.npm.taobao.orghttps registry.npm.taobao.orghttps:443
+26 silly fetchPackageMetaData     at errnoException (dns.js:28:10)
+26 silly fetchPackageMetaData     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:76:26)
+26 silly fetchPackageMetaData  error for grunt-contrib-concurrent { Error: getaddrinfo ENOTFOUND registry.npm.taobao.orghttps registry.npm.taobao.orghttps:443
+26 silly fetchPackageMetaData     at errnoException (dns.js:28:10)
+26 silly fetchPackageMetaData     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:76:26)
+26 silly fetchPackageMetaData   code: 'ENOTFOUND',
+26 silly fetchPackageMetaData   errno: 'ENOTFOUND',
+26 silly fetchPackageMetaData   syscall: 'getaddrinfo',
+26 silly fetchPackageMetaData   hostname: 'registry.npm.taobao.orghttps',
+26 silly fetchPackageMetaData   host: 'registry.npm.taobao.orghttps',
+26 silly fetchPackageMetaData   port: 443 }
+27 silly rollbackFailedOptional Starting
+28 silly rollbackFailedOptional Finishing
+29 silly runTopLevelLifecycles Finishing
+30 silly install printInstalled
+31 verbose stack Error: getaddrinfo ENOTFOUND registry.npm.taobao.orghttps registry.npm.taobao.orghttps:443
+31 verbose stack     at errnoException (dns.js:28:10)
+31 verbose stack     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:76:26)
+32 verbose cwd E:\Program Files\Github\node.js-\node&mongodb
+33 error Windows_NT 6.1.7601
+34 error argv "E:\\Program Files\\nodejs\\node.exe" "E:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "grunt-contrib-concurrent" "--save" "-dev" "--registry=https://registry.npm.taobao.orghttps://registry.npm.taobao.org"
+35 error node v6.10.3
+36 error npm  v3.10.10
+37 error code ENOTFOUND
+38 error errno ENOTFOUND
+39 error syscall getaddrinfo
+40 error network getaddrinfo ENOTFOUND registry.npm.taobao.orghttps registry.npm.taobao.orghttps:443
+41 error network This is most likely not a problem with npm itself
+41 error network and is related to network connectivity.
+41 error network In most cases you are behind a proxy or have bad network settings.
+41 error network
+41 error network If you are behind a proxy, please make sure that the
+41 error network 'proxy' config is set properly.  See: 'npm help config'
+42 verbose exit [ 1, true ]

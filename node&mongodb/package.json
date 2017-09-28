@@ -8,6 +8,8 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.15.4",
     "express-session": "^1.15.5",
+    "grunt-contrib-nodemon": "^0.5.4",
+    "grunt-contrib-watch": "^1.0.0",
     "jade": "^1.11.0",
     "moment": "^2.18.1",
     "mongoose": "^4.11.10"

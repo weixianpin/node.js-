@@ -15,33 +15,25 @@ module.exports = function(app) {
 	//index page
 	app.get('/', Index.index);
 
-
 	//signup
 	app.post('/user/signup', User.signup);
-
 	// signin
 	app.post('/user/signin', User.signin);
 	// logout
 	app.get('/logout', User.logout);
-
 	// user list page
 	app.get('/admin/userlist', User.userlist);
 
 	//detail page
 	app.get('/movie/:id', Movie.detail);
-
-	//admin page
+	//admin new page
 	app.get('/admin/movie', Movie.new);
-
 	//admin update movie
 	app.get('/admin/update/:id', Movie.update);
-
 	//admin post movie
 	app.post('/admin/movie/new', Movie.save);
-
 	//list page
 	app.get('/admin/list', Movie.list);
-
 	//list delete movie 
 	app.delete('/admin/list', Movie.delete);
 };
