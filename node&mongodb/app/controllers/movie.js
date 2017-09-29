@@ -1,15 +1,19 @@
 var _ = require('underscore');
 var Movie = require('../modules/movie.js');
+var Comment = require('../modules/comment.js');
 //detail page
 exports.detail = function (req, res) {
 	var id = req.params.id;
+
 	Movie.findById(id, function(err, movie){
-	res.render('detail', {
-			title: 'movie' + movie.title,
-			movie: movie
+		Comment.find({movie:id}, function(err, comments) {
+			res.render('detail', {
+				title: 'movie' + movie.title,
+				movie: movie,
+				comments: comments
+			});
 		});
 	});
-	
 };
 
 //admin page

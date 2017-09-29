@@ -2,6 +2,7 @@ var _ = require('underscore');
 var Index = require('../app/controllers/index.js');
 var User = require('../app/controllers/user.js');
 var Movie = require('../app/controllers/movie.js');
+var Comment = require('../app/controllers/comment.js');
 module.exports = function(app) {
 	// pre handle user 预处理
 	app.use(function(req, res, next) {
@@ -38,4 +39,7 @@ module.exports = function(app) {
 	app.get('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.list);
 	//list delete movie 
 	app.delete('/admin/movie/list', User.signinRequired, User.adminRequired, Movie.delete);
+
+	// comment
+	app.post('/user/comment', User.signinRequired, Comment.save);
 };
