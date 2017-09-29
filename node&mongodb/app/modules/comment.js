@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var MovieSchema = require('../schemas/movie.js');
+var CommentSchema = require('../schemas/comment.js');
 
 var Comment = mongoose.model('Comment', CommentSchema);
 module.exports = Comment;
