@@ -31,6 +31,4 @@ exports.save = function(req, res) {
 				res.redirect('/movie/' + movieId);
 		});
 	}
-
-	
 };

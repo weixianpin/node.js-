@@ -24,7 +24,8 @@ exports.index = function (req, res) {
 exports.search = function (req, res) {
 	var catId = req.query.cat;
 	var page = req.query.p;
-	var index = page * 2;
+	var count = 5;
+	var index = page * count;
 
 
 	Category
@@ -40,14 +41,15 @@ exports.search = function (req, res) {
 			}
 			var category = categories[0] || {};
 			var movies = category.movies || [];
-			var results = movies.slice(index, index + 2);
+			var results = movies.slice(index, index + count);
 
 			res.render('results', {
 				title: 'movie 结果列表',
 				keyword: category.name,
 				currentPage: (page + 1),
-				totalPage: Math.ceil(movies.length / 2),
-				movies: category
+				query: 'cat=' + catId,
+				totalPage: Math.ceil(movies.length / count),// 向上取整
+				movies: results
 			});
 		});
 };

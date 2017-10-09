@@ -4,8 +4,13 @@ var ObjectId = Schema.Types.ObjectId;
 
 var CommentSchema = new Schema({
 	movie: {type: ObjectId, ref: 'Movie'},
-	from: {type: ObjectId, ref: 'User'}, // 评论者
-	to: {type: ObjectId, ref: 'User'}, // 被评论者
+	from: {type: ObjectId, ref: 'User'},
+	reply: [{
+		from: {type: ObjectId, ref: 'User'},
+		to: {type: ObjectId, ref: 'User'}, // 被评论者
+		content: String, // 评论内容
+	}], // 评论者
+	
 	content: String, // 评论内容
 	meta: {
 		createAt:{
