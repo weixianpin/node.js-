@@ -2,84 +2,36 @@ var _ = require('underscore');
 var Movie = require('../modules/movie.js');
 var Comment = require('../modules/comment.js');
 
-//admin page
+//admin new page
 exports.new = function (req, res) {
 	res.render('category_admin', {
-		title: 'movie 后台录入页',
-		movie: {
-			title: '',
-			director: '',
-			country: '',
-			year: '',
-			poster: '',
-			flash: '',
-			summary: '',
-			language: ''
-		}
+		title: 'movie 后台分类录入页',
 	});
 };
 
-//admin update movie
-exports.update = function(req, res) {
-	var id = req.params.id;
-	if(id) {
-		Movie.findById(id, function(err, movie) {
-			res.render('admin', {
-				title: 'movie 后台更新页面',
-				movie: movie
-			});
-		});
-	}
-};
 
 //admin post movie
 exports.save = function(req, res) {
-	var id = req.body.movie._id;
-	var movieObj = req.body.movie;//post 过来的movie
-	var _movie;
+	var _category = req.body.category;
 
-	if(id !== 'undefined') {
-		Movie.findById(id, function(err, movie) {
+	var category = new Category(_category);
+	category.save(function(err, category) {
 			if(err) {
-				return console.log(err);
+				console.log(err);
 			}
-			_movie = _.extend(movie, movieObj);//将post过来的数据替换原先的数据
-			_movie.save(function(err, movie) {
-				if(err) {
-					console.log(err);
-				}
-				res.redirect('/movie/' + movie._id);
-			});
-		});
-	}else {
-		_movie = new Movie({
-			title: movieObj.title,
-			director: movieObj.director,
-			country: movieObj.country,
-			year: movieObj.year,
-			language: movieObj.language,
-			poster: movieObj.poster,
-			flash: movieObj.flash,
-			summary: movieObj.summary
-		});
-		_movie.save(function(err, movie) {
-				if(err) {
-					console.log(err);
-				}
-				res.redirect('/movie/' + movie._id);
-		});
-	}
+			res.redirect('/admin/category/list');
+	});
 };
 
-//list page
+// category list page
 exports.list = function (req, res) {
-	Movie.fetch(function(err, movies) {
+	Category.fetch(function(err, categories) {
 		if (err) {
 			return console.log(err);
 		}
 		res.render('list', {
-			title: 'movie 列表页',
-			movies: movies
+			title: '分类 列表页',
+			categories: categories
 		}); 
 	});
 };

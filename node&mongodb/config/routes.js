@@ -3,6 +3,8 @@ var Index = require('../app/controllers/index.js');
 var User = require('../app/controllers/user.js');
 var Movie = require('../app/controllers/movie.js');
 var Comment = require('../app/controllers/comment.js');
+var Category = require('../app/controllers/category.js');
+
 module.exports = function(app) {
 	// pre handle user 预处理
 	app.use(function(req, res, next) {
@@ -42,4 +44,9 @@ module.exports = function(app) {
 
 	// comment
 	app.post('/user/comment', User.signinRequired, Comment.save);
+
+	// category
+	app.get('/admin/category/new', User.signinRequired, User.adminRequired, Category.new);
+	app.post('/admin/category', User.signinRequired, User.adminRequired, Category.save);
+	app.get('/admin/category/list', User.signinRequired, User.adminRequired, Category.list);
 };
