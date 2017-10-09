@@ -2,6 +2,9 @@ var _ = require('underscore');
 var Movie = require('../modules/movie.js');
 var Category = require('../modules/category.js');
 var Comment = require('../modules/comment.js');
+var fs = require('fs');
+var path = require('path');
+
 //detail page
 exports.detail = function (req, res) {
 	var id = req.params.id;
@@ -44,6 +47,21 @@ exports.update = function(req, res) {
 					categories: categories
 				});
 			});
+		});
+	}
+};
+
+// admin poster
+exports.savePoster = function(req, res, next) {
+	var posterData = req.files.uplaodPoster; // 上传文件
+	var filePath = posterData.path; // 文件路径
+	var originalFilename = posterData.originalFilename;// 用以判断文件是否存在
+	if(originalFilename) {
+		fs.readFile(filePath, function(err, data) {
+			var timestamp = Date.now();// 以时间命名文件
+			var type = posterData.type.split('/')[1];// 文件类型
+			var poster = timestamp + '.' + type;
+
 		});
 	}
 };
