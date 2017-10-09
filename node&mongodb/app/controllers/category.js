@@ -1,6 +1,6 @@
 var _ = require('underscore');
 var Movie = require('../modules/movie.js');
-var Comment = require('../modules/comment.js');
+var Category = require('../modules/category.js');
 
 //admin new page
 exports.new = function (req, res) {

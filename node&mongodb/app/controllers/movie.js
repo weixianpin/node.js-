@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var Movie = require('../modules/movie.js');
+var Category = require('../modules/category.js');
 var Comment = require('../modules/comment.js');
 //detail page
 exports.detail = function (req, res) {
@@ -21,19 +22,14 @@ exports.detail = function (req, res) {
 
 //admin page
 exports.new = function (req, res) {
-	res.render('admin', {
-		title: 'movie 后台录入页',
-		movie: {
-			title: '',
-			director: '',
-			country: '',
-			year: '',
-			poster: '',
-			flash: '',
-			summary: '',
-			language: ''
-		}
+	Category.find({}, function(err, categories) {
+		res.render('admin', {
+				title: 'movie 后台录入页',
+				movie: {},
+				categories: categories
+			});
 	});
+	
 };
 
 //admin update movie
@@ -55,7 +51,7 @@ exports.save = function(req, res) {
 	var movieObj = req.body.movie;//post 过来的movie
 	var _movie;
 
-	if(id !== 'undefined') {
+	if(id) {
 		Movie.findById(id, function(err, movie) {
 			if(err) {
 				return console.log(err);
@@ -69,21 +65,18 @@ exports.save = function(req, res) {
 			});
 		});
 	}else {
-		_movie = new Movie({
-			title: movieObj.title,
-			director: movieObj.director,
-			country: movieObj.country,
-			year: movieObj.year,
-			language: movieObj.language,
-			poster: movieObj.poster,
-			flash: movieObj.flash,
-			summary: movieObj.summary
-		});
+		_movie = new Movie(movieObj);
+		var categoryId = _movie.category;
 		_movie.save(function(err, movie) {
 				if(err) {
 					console.log(err);
 				}
-				res.redirect('/movie/' + movie._id);
+				Category.findById(categoryId, function(err, category) {
+					category.movies.push(movie._id);
+					category.save(function(err, category) {
+						res.redirect('/movie/' + movie._id);
+					});
+				});
 		});
 	}
 };
