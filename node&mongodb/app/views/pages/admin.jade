@@ -4,6 +4,10 @@ block content
 	.container
 		.row
 			form.form-horizontal(method="post", action="/admin/movie/new")
+				.form-group
+					label.col-sm-2.control-label 豆瓣同步
+					.col-sm-10
+						input#douban.form-control(type="text")
 				if movie._id
 					input(type="hidden", name="movie[_id]", value=movie._id)
 				.form-group
@@ -14,7 +18,11 @@ block content
 					label.col-sm-2.control-label 分类选择
 					each cat in categories
 						label.radio-inline
-							input(type="radio", name="movie[category]", value=cat._id) | #{cat.name}
+							if movie._id
+								input(type="radio", name="movie[category]", value=cat._id, checked=cat._id.toString()==movie.category.toString())
+							else
+								input(type="radio", name="movie[category]", value=cat._id)
+								| #{cat.name}
 				.form-group
 					label.col-sm-2.control-label(for="inputTitle") 电影名字
 					.col-sm-10
