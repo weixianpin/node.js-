@@ -12,7 +12,7 @@ $(function() {
 		$('<input>').attr({
 			type: 'hidden',
 			name: 'comment[cid]',
-			value: toId
+			value: commentId
 		}).appendTo('#commentForm');
 	});
 });
