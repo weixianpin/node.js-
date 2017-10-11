@@ -1,3 +1,4 @@
+// movie 录入页删除
 $(function() {
 	$('.del').click(function(e) {
 		var target = $(e.target);
@@ -17,6 +18,7 @@ $(function() {
 			}
 		});
 	});
+// 请求豆瓣电影信息 
 
 	$("#douban").blur(function() {
 		var douban = $(this);
@@ -25,7 +27,7 @@ $(function() {
 			$.ajax({
 				url: 'https://api.douban.com/v2/movie/object/' + id,
 				cache: true,
-				type: 'get',
+				type: 'GET',
 				dataType: 'jsonp',
 				crossDomin: true,
 				jsonp: 'callback',

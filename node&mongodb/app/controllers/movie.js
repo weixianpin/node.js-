@@ -61,8 +61,15 @@ exports.savePoster = function(req, res, next) {
 			var timestamp = Date.now();// 以时间命名文件
 			var type = posterData.type.split('/')[1];// 文件类型
 			var poster = timestamp + '.' + type;
-
+			var newPath = path.join(__dirname, '../../public/upload/' + poster);
+			fs.writeFile(newPath, data, function(err) {
+				req.poster = poster;
+				next();
+			});
 		});
+	}
+	else {
+		next();
 	}
 };
 
@@ -71,6 +78,10 @@ exports.save = function(req, res) {
 	var id = req.body.movie._id;
 	var movieObj = req.body.movie;//post 过来的movie
 	var _movie;
+
+	if(req.poster) {
+		movieObj.poster = req.poster;
+	}
 
 	if(id) {
 		Movie.findById(id, function(err, movie) {
