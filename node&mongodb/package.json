@@ -11,9 +11,11 @@
     "express-session": "^1.15.5",
     "grunt-contrib-nodemon": "^0.5.4",
     "grunt-contrib-watch": "^1.0.0",
+    "grunt-mocha-test": "^0.13.3",
     "jade": "^1.11.0",
     "moment": "^2.18.1",
-    "mongoose": "^4.11.10"
+    "mongoose": "^4.11.10",
+    "should": "^13.1.2"
   },
   "devDependencies": {},
   "scripts": {

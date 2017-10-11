@@ -34,6 +34,14 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+
+		mochaTest: {
+			options: {
+				repoter: 'spec'
+			},
+			src: ['test/**/*.js']
+		},
+
 // 可以重新执行nodemon 和 watch
 		concurrent: {
 			tasks: ['nodemon', 'watch'],
@@ -46,7 +54,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');//grunt 插件
 	grunt.loadNpmTasks('grunt-nodemon');// grunt 针对入口文件
 	grunt.loadNpmTasks('grunt-concurrent');// grunt 针对蛮任务
+	grunt.loadNpmTasks('grunt-mocha-test');
 
 	grunt.option('force', true);//如果部分程序出错，仍会往下执行
+
 	grunt.registerTasks('default', ['concurrent']);
+	grunt.registerTasks('test', ['mochaTest']);
 };

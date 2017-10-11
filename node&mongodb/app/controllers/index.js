@@ -55,22 +55,22 @@ exports.search = function (req, res) {
 		});
 	}
 	else {
-		Movie
-		.find({title: new RegExp(q+'.*'), 'i'})
-		.exec(function(err, movies) {
-			if (err) {
-				console.log(err);
-			}
-			var results = movies.slice(index, index + count);
+			Movie
+			.find({title: new RegExp(q+'.*'), 'i'})
+			.exec(function(err, movies) {
+				if (err) {
+					console.log(err);
+				}
+				var results = movies.slice(index, index + count);
 
-			res.render('results', {
-				title: 'movie 结果列表',
-				keyword: q,
-				currentPage: (page + 1),
-				query: 'q' + q,
-				totalPage: Math.ceil(movies.length / count),// 向上取整
-				movies: results
+				res.render('results', {
+					title: 'movie 结果列表',
+					keyword: q,
+					currentPage: (page + 1),
+					query: 'q' + q,
+					totalPage: Math.ceil(movies.length / count),// 向上取整
+					movies: results
+				});
 			});
-		});
 	}
 };
