@@ -1,7 +1,11 @@
 var express = require('express')
 var path = require('path')
 var mongoose = require('mongoose')
-var mongoStore = require('connect-mongo')(express)
+var mongoStore = require('connect-mongo')(session)
+var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
+var session = require('express-sessiom')
+
 var port = process.env.PORT || 3000
 var app = express()
 var fs = require('fs')
@@ -31,10 +35,11 @@ var walk = function(path) {
 walk(models_path)
 app.set('views', './app/views/pages')
 app.set('view engine', 'jade')
-app.use(express.bodyParser())
-app.use(express.cookieParser())
-app.use(express.multipart())
-app.use(express.session({
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(cookieParser())
+app.use(multipart())
+app.use(session({
   secret: 'imooc',
   store: new mongoStore({
     url: dbUrl,
