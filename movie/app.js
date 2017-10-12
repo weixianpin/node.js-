@@ -4,7 +4,7 @@ var mongoose = require('mongoose')
 
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
-var session = require('express-sessiom')
+var session = require('express-session')
 var mongoStore = require('connect-mongo')(session)
 var logger = require('morgan')
 var serveStatic = require('serve-static')
@@ -51,7 +51,8 @@ app.use(session({
   })
 }))
 
-if ('development' === app.get('env')) {
+var env = process.env.NODE_ENV || 'development'
+if ('development' === env) {
   app.set('showStackError', true)
   app.use(logger(':method :url :status'))
   app.locals.pretty = true

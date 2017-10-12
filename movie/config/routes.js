@@ -3,7 +3,7 @@ var User = require('../app/controllers/user')
 var Movie = require('../app/controllers/movie')
 var Comment = require('../app/controllers/comment')
 var Category = require('../app/controllers/category')
-var multipart = require('connetct-multiparty')
+var multipart = require('connect-multiparty')
 var multipartMiddleware = multipart()
 
 module.exports = function(app) {
