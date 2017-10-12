@@ -1,0 +1,45 @@
+{
+  "name": "movie",
+  "version": "0.2.0",
+  "description": "Everythinng about movie app for  imooc",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "async": "^2.5.0",
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "connect-mongo": "^2.0.0",
+    "connect-multiparty": "^2.0.0",
+    "cookie-parser": "^1.4.3",
+    "crypto": "^1.0.1",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "grunt": "^1.0.1",
+    "grunt-concurrent": "^2.3.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-less": "^1.4.1",
+    "grunt-contrib-uglify": "^3.1.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-mocha-test": "^0.13.3",
+    "grunt-nodemon": "^0.4.2",
+    "jade": "^1.11.0",
+    "moment": "^2.19.1",
+    "mongoose": "^4.12.1",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.oschina.net/wolf18387/imooc-movie.git"
+  },
+  "keywords": [
+    "lessonns"
+  ],
+  "author": "Scott",
+  "license": "MIT"
+}
