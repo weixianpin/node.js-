@@ -43,7 +43,21 @@ exports.new = function(req, res) {
 }
 
 // admin update page
+exports.update = function(req, res) {
+  var id = req.params.id
 
+  if (id) {
+    Movie.findById(id, function(err, movie) {
+      Category.find({}, function(err, categories) {
+        res.render('admin', {
+          title: 'imooc 后台更新页',
+          movie: movie,
+          categories: categories
+        })
+      })
+    })
+  }
+}
 
 // admin poster
 exports.savePoster = function(req, res, next) {
